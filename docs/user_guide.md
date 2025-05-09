@@ -177,7 +177,7 @@ const interpretation = await client.interpretations.create({
 
 - `vocId: string` - 单词ID
 - `interpretation: string` - 释义内容
-- `tags: string[]` - 标签
+- `tags: InterpretationTag[]` - 标签，必须从以下值中选择：'考研'、'简明'、'详细'、'英英'、'小学'、'初中'、'高中'、'四级'、'六级'、'专升本'、'专四'、'专八'、'考博'、'雅思'、'托福'、'托业'、'新概念'、'GRE'、'GMAT'、'BEC'、'MBA'、'SAT'、'ACT'、'法学'、'医学'
 - `status?: InterpretationStatus` - 状态，可选，默认PUBLISHED
 
 **返回:**
@@ -210,7 +210,7 @@ const updatedInterpretation = await client.interpretations.update('释义ID', {
 
 - `id: string` - 释义ID
 - `interpretation: string` - 释义内容
-- `tags: string[]` - 标签
+- `tags: InterpretationTag[]` - 标签，必须从以下值中选择：'考研'、'简明'、'详细'、'英英'、'小学'、'初中'、'高中'、'四级'、'六级'、'专升本'、'专四'、'专八'、'考博'、'雅思'、'托福'、'托业'、'新概念'、'GRE'、'GMAT'、'BEC'、'MBA'、'SAT'、'ACT'、'法学'、'医学'
 - `status?: InterpretationStatus` - 状态，可选
 
 **返回:**
@@ -275,6 +275,7 @@ const note = await client.notes.create({
   vocId: '单词ID',
   noteType: '助记类型',
   note: '助记内容',
+  tags: ['词根词缀', '联想']
 });
 ```
 
@@ -283,6 +284,7 @@ const note = await client.notes.create({
 - `vocId: string` - 单词ID
 - `noteType: string` - 助记类型
 - `note: string` - 助记内容
+- `tags: NoteTag[]` - 标签，必须从以下值中选择：'词根词缀'、'固定搭配'、'近反义词'、'派生'、'词源'、'辨析'、'语法'、'联想'、'谐音'、'串记'、'口诀'、'扩展'、'合成'、'其他'
 
 **返回:**
 
@@ -296,6 +298,7 @@ const note = await client.notes.create({
   vocId: '5a7BFf4F63612e5AD9fdebB7a50D3881',
   noteType: '谐音',
   note: '苹果的助记内容',
+  tags: ['谐音', '联想']
 });
 ```
 
@@ -305,6 +308,7 @@ const note = await client.notes.create({
 const updatedNote = await client.notes.update('助记ID', {
   noteType: '新助记类型',
   note: '新助记内容',
+  tags: ['词根词缀', '扩展']
 });
 ```
 
@@ -313,6 +317,7 @@ const updatedNote = await client.notes.update('助记ID', {
 - `id: string` - 助记ID
 - `noteType: string` - 助记类型
 - `note: string` - 助记内容
+- `tags: NoteTag[]` - 标签，必须从以下值中选择：'词根词缀'、'固定搭配'、'近反义词'、'派生'、'词源'、'辨析'、'语法'、'联想'、'谐音'、'串记'、'口诀'、'扩展'、'合成'、'其他'
 
 **返回:**
 
@@ -325,6 +330,7 @@ const updatedNote = await client.notes.update('助记ID', {
 const updatedNote = await client.notes.update('note-id-123', {
   noteType: '谐音',
   note: '更新后的助记内容',
+  tags: ['谐音', '串记', '口诀']
 });
 ```
 
@@ -399,18 +405,20 @@ const notepad = await client.notepads.get('notepad-id-123');
 ```typescript
 const notepad = await client.notepads.create({
   title: '云词本标题',
-  description: '云词本描述',
-  tags: ['标签1', '标签2'],
-  words: ['单词1', '单词2'],
+  content: '云词本内容',
+  brief: '云词本简介',
+  tags: ['小学', '四级'],
+  status: NotepadStatus.PUBLISHED,
 });
 ```
 
 **参数:**
 
 - `title: string` - 云词本标题
-- `description?: string` - 云词本描述，可选
-- `tags?: string[]` - 标签，可选
-- `words?: string[]` - 单词列表，可选
+- `content: string` - 云词本内容
+- `brief: string` - 云词本简介
+- `tags: NotepadTag[]` - 标签，必须从以下值中选择：'小学'、'初中'、'高中'、'大学教科书'、'四级'、'六级'、'专四'、'专八'、'考研'、'新概念'、'SAT'、'托福'、'雅思'、'GRE'、'GMAT'、'托业'、'BEC'、'词典'、'词频'、'其他'
+- `status?: NotepadStatus` - 状态，可选
 
 **返回:**
 
@@ -424,7 +432,7 @@ const newNotepad = await client.notepads.create({
   title: '常用词汇',
   content: 'apple\nbanana\norange',
   brief: '常用水果单词',
-  tags: ['水果', '基础词汇'],
+  tags: ['小学', '四级'],
   status: NotepadStatus.PUBLISHED,
 });
 ```
@@ -434,21 +442,21 @@ const newNotepad = await client.notepads.create({
 ```typescript
 const updatedNotepad = await client.notepads.update('云词本ID', {
   title: '新标题',
-  description: '新描述',
-  tags: ['新标签1', '新标签2'],
-  addWords: ['添加单词1', '添加单词2'],
-  removeWords: ['移除单词1', '移除单词2'],
+  content: '新内容',
+  brief: '新简介',
+  tags: ['小学', '四级', '词频'],
+  status: NotepadStatus.PUBLISHED,
 });
 ```
 
 **参数:**
 
 - `id: string` - 云词本ID
-- `title?: string` - 云词本标题，可选
-- `description?: string` - 云词本描述，可选
-- `tags?: string[]` - 标签，可选
-- `addWords?: string[]` - 添加的单词列表，可选
-- `removeWords?: string[]` - 移除的单词列表，可选
+- `title: string` - 云词本标题
+- `content: string` - 云词本内容
+- `brief: string` - 云词本简介
+- `tags: NotepadTag[]` - 标签，必须从以下值中选择：'小学'、'初中'、'高中'、'大学教科书'、'四级'、'六级'、'专四'、'专八'、'考研'、'新概念'、'SAT'、'托福'、'雅思'、'GRE'、'GMAT'、'托业'、'BEC'、'词典'、'词频'、'其他'
+- `status?: NotepadStatus` - 状态，可选
 
 **返回:**
 
@@ -462,7 +470,7 @@ const updatedNotepad = await client.notepads.update('notepad-id-123', {
   title: '常用词汇（更新）',
   content: 'apple\nbanana\norange\npear',
   brief: '常用水果单词（更新）',
-  tags: ['水果', '基础词汇', '扩展'],
+  tags: ['小学', '词频'],
   status: NotepadStatus.PUBLISHED,
 });
 ```
@@ -523,9 +531,9 @@ const phrase = await client.phrases.create({
 
 - `vocId: string` - 单词ID
 - `phrase: string` - 例句内容
-- `translation: string` - 例句翻译
-- `tags?: string[]` - 标签，可选
-- `source?: string` - 例句来源，可选
+- `interpretation: string` - 例句翻译
+- `tags: PhraseTag[]` - 标签，必须从以下值中选择：'小学'、'初中'、'高中'、'四级'、'六级'、'专升本'、'专四'、'专八'、'考研'、'考博'、'新概念'、'SAT'、'托福'、'雅思'、'GRE'、'GMAT'、'托业'、'BEC'、'词典'、'MBA'、'ACT'、'法学'、'医学'、'短语'
+- `origin: string` - 例句来源
 
 **返回:**
 
@@ -539,7 +547,7 @@ const phrase = await client.phrases.create({
   vocId: '5a7BFf4F63612e5AD9fdebB7a50D3881',
   phrase: 'This is an apple.',
   interpretation: '这是一个苹果。',
-  tags: ['基础', '简单'],
+  tags: ['小学', '短语'],
   origin: '自定义',
 });
 ```
@@ -549,19 +557,19 @@ const phrase = await client.phrases.create({
 ```typescript
 const updatedPhrase = await client.phrases.update('例句ID', {
   phrase: '新例句内容',
-  translation: '新例句翻译',
-  tags: ['新标签1', '新标签2'],
-  source: '新例句来源',
+  interpretation: '新例句翻译',
+  tags: ['小学', '四级'],
+  origin: '新例句来源',
 });
 ```
 
 **参数:**
 
 - `id: string` - 例句ID
-- `phrase?: string` - 例句内容，可选
-- `translation?: string` - 例句翻译，可选
-- `tags?: string[]` - 标签，可选
-- `source?: string` - 例句来源，可选
+- `phrase: string` - 例句内容
+- `interpretation: string` - 例句翻译
+- `tags: PhraseTag[]` - 标签，必须从以下值中选择：'小学'、'初中'、'高中'、'四级'、'六级'、'专升本'、'专四'、'专八'、'考研'、'考博'、'新概念'、'SAT'、'托福'、'雅思'、'GRE'、'GMAT'、'托业'、'BEC'、'词典'、'MBA'、'ACT'、'法学'、'医学'、'短语'
+- `origin: string` - 例句来源
 
 **返回:**
 
@@ -574,7 +582,7 @@ const updatedPhrase = await client.phrases.update('例句ID', {
 const updatedPhrase = await client.phrases.update('phrase-id-123', {
   phrase: 'This is a red apple.',
   interpretation: '这是一个红苹果。',
-  tags: ['基础', '简单', '颜色'],
+  tags: ['小学', '四级', '短语'],
   origin: '自定义',
 });
 ```

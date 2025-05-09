@@ -26,12 +26,42 @@ export enum InterpretationStatus {
 }
 
 /**
+ * 释义标签类型
+ */
+export type InterpretationTag =
+  | '考研'
+  | '简明'
+  | '详细'
+  | '英英'
+  | '小学'
+  | '初中'
+  | '高中'
+  | '四级'
+  | '六级'
+  | '专升本'
+  | '专四'
+  | '专八'
+  | '考博'
+  | '雅思'
+  | '托福'
+  | '托业'
+  | '新概念'
+  | 'GRE'
+  | 'GMAT'
+  | 'BEC'
+  | 'MBA'
+  | 'SAT'
+  | 'ACT'
+  | '法学'
+  | '医学';
+
+/**
  * 释义类型
  */
 export interface Interpretation {
   id: string;
   interpretation: string;
-  tags: string[];
+  tags: InterpretationTag[];
   status: InterpretationStatus;
   created_time: string;
   updated_time: string;
@@ -43,7 +73,7 @@ export interface Interpretation {
 export interface CreateInterpretationParams {
   vocId: string;
   interpretation: string;
-  tags: string[];
+  tags: InterpretationTag[];
   status?: InterpretationStatus;
 }
 
@@ -52,7 +82,7 @@ export interface CreateInterpretationParams {
  */
 export interface UpdateInterpretationParams {
   interpretation: string;
-  tags: string[];
+  tags: InterpretationTag[];
   status?: InterpretationStatus;
 }
 
@@ -65,12 +95,32 @@ export enum NoteStatus {
 }
 
 /**
+ * 助记标签类型
+ */
+export type NoteTag =
+  | '词根词缀'
+  | '固定搭配'
+  | '近反义词'
+  | '派生'
+  | '词源'
+  | '辨析'
+  | '语法'
+  | '联想'
+  | '谐音'
+  | '串记'
+  | '口诀'
+  | '扩展'
+  | '合成'
+  | '其他';
+
+/**
  * 助记类型
  */
 export interface Note {
   id: string;
   note_type: string;
   note: string;
+  tags: NoteTag[];
   status: NoteStatus;
   created_time: string;
   updated_time: string;
@@ -83,6 +133,7 @@ export interface CreateNoteParams {
   vocId: string;
   noteType: string;
   note: string;
+  tags: NoteTag[];
 }
 
 /**
@@ -91,6 +142,7 @@ export interface CreateNoteParams {
 export interface UpdateNoteParams {
   noteType: string;
   note: string;
+  tags: NoteTag[];
 }
 
 /**
@@ -109,6 +161,31 @@ export enum NotepadType {
   FAVORITE = 'FAVORITE',
   NOTEPAD = 'NOTEPAD',
 }
+
+/**
+ * 云词本标签类型
+ */
+export type NotepadTag =
+  | '小学'
+  | '初中'
+  | '高中'
+  | '大学教科书'
+  | '四级'
+  | '六级'
+  | '专四'
+  | '专八'
+  | '考研'
+  | '新概念'
+  | 'SAT'
+  | '托福'
+  | '雅思'
+  | 'GRE'
+  | 'GMAT'
+  | '托业'
+  | 'BEC'
+  | '词典'
+  | '词频'
+  | '其他';
 
 /**
  * 云词本解析结果项目类型
@@ -132,7 +209,7 @@ export interface Notepad {
   content: string;
   title: string;
   brief: string;
-  tags: string[];
+  tags: NotepadTag[];
   list: NotepadParsedItem[];
   created_time: string;
   updated_time: string;
@@ -145,7 +222,7 @@ export interface CreateNotepadParams {
   title: string;
   content: string;
   brief: string;
-  tags: string[];
+  tags: NotepadTag[];
   status?: NotepadStatus;
 }
 
@@ -156,7 +233,7 @@ export interface UpdateNotepadParams {
   title: string;
   content: string;
   brief: string;
-  tags: string[];
+  tags: NotepadTag[];
   status?: NotepadStatus;
 }
 
@@ -170,7 +247,7 @@ export interface BriefNotepad {
   status: NotepadStatus;
   title: string;
   brief: string;
-  tags: string[];
+  tags: NotepadTag[];
   created_time: string;
   updated_time: string;
 }
@@ -182,6 +259,35 @@ export enum PhraseStatus {
   PUBLISHED = 'PUBLISHED',
   DELETED = 'DELETED',
 }
+
+/**
+ * 例句标签类型
+ */
+export type PhraseTag =
+  | '小学'
+  | '初中'
+  | '高中'
+  | '四级'
+  | '六级'
+  | '专升本'
+  | '专四'
+  | '专八'
+  | '考研'
+  | '考博'
+  | '新概念'
+  | 'SAT'
+  | '托福'
+  | '雅思'
+  | 'GRE'
+  | 'GMAT'
+  | '托业'
+  | 'BEC'
+  | '词典'
+  | 'MBA'
+  | 'ACT'
+  | '法学'
+  | '医学'
+  | '短语';
 
 /**
  * 例句中的单词高亮区间
@@ -198,7 +304,7 @@ export interface Phrase {
   id: string;
   phrase: string;
   interpretation: string;
-  tags: string[];
+  tags: PhraseTag[];
   highlight: PhraseHighlightRange[];
   status: PhraseStatus;
   created_time: string;
@@ -213,7 +319,7 @@ export interface CreatePhraseParams {
   vocId: string;
   phrase: string;
   interpretation: string;
-  tags: string[];
+  tags: PhraseTag[];
   origin: string;
 }
 
@@ -223,7 +329,7 @@ export interface CreatePhraseParams {
 export interface UpdatePhraseParams {
   phrase: string;
   interpretation: string;
-  tags: string[];
+  tags: PhraseTag[];
   origin: string;
 }
 
