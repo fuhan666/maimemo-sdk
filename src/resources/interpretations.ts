@@ -42,7 +42,12 @@ export class InterpretationService extends BaseService {
    */
   async create(params: CreateInterpretationParams): Promise<Interpretation> {
     try {
-      const { vocId, interpretation, tags, status = InterpretationStatus.PUBLISHED } = params;
+      const {
+        vocId,
+        interpretation,
+        tags,
+        status = InterpretationStatus.PUBLISHED,
+      } = params;
 
       const response = await this.client.post(this.basePath, {
         interpretation: {
@@ -64,9 +69,16 @@ export class InterpretationService extends BaseService {
    * @param params 更新释义参数
    * @returns 更新后的释义
    */
-  async update(id: string, params: UpdateInterpretationParams): Promise<Interpretation> {
+  async update(
+    id: string,
+    params: UpdateInterpretationParams,
+  ): Promise<Interpretation> {
     try {
-      const { interpretation, tags, status = InterpretationStatus.PUBLISHED } = params;
+      const {
+        interpretation,
+        tags,
+        status = InterpretationStatus.PUBLISHED,
+      } = params;
 
       const response = await this.client.post(`${this.basePath}/${id}`, {
         interpretation: {

@@ -27,7 +27,11 @@ export class NotepadService extends BaseService {
    * @param ids 指定的云词本ID列表
    * @returns 云词本列表
    */
-  async list(limit: number = 10, offset: number = 0, ids?: string[]): Promise<BriefNotepad[]> {
+  async list(
+    limit: number = 10,
+    offset: number = 0,
+    ids?: string[],
+  ): Promise<BriefNotepad[]> {
     try {
       const params: Record<string, any> = { limit, offset };
       if (ids && ids.length > 0) {
@@ -62,7 +66,13 @@ export class NotepadService extends BaseService {
    */
   async create(params: CreateNotepadParams): Promise<Notepad> {
     try {
-      const { title, content, brief, tags, status = NotepadStatus.PUBLISHED } = params;
+      const {
+        title,
+        content,
+        brief,
+        tags,
+        status = NotepadStatus.PUBLISHED,
+      } = params;
 
       const response = await this.client.post(this.basePath, {
         notepad: {
@@ -87,7 +97,13 @@ export class NotepadService extends BaseService {
    */
   async update(id: string, params: UpdateNotepadParams): Promise<Notepad> {
     try {
-      const { title, content, brief, tags, status = NotepadStatus.PUBLISHED } = params;
+      const {
+        title,
+        content,
+        brief,
+        tags,
+        status = NotepadStatus.PUBLISHED,
+      } = params;
 
       const response = await this.client.post(`${this.basePath}/${id}`, {
         notepad: {
