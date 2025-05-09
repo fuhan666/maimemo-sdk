@@ -399,18 +399,20 @@ const notepad = await client.notepads.get('notepad-id-123');
 ```typescript
 const notepad = await client.notepads.create({
   title: '云词本标题',
-  description: '云词本描述',
-  tags: ['标签1', '标签2'],
-  words: ['单词1', '单词2'],
+  content: '云词本内容',
+  brief: '云词本简介',
+  tags: ['小学', '四级'],
+  status: NotepadStatus.PUBLISHED,
 });
 ```
 
 **参数:**
 
 - `title: string` - 云词本标题
-- `description?: string` - 云词本描述，可选
-- `tags?: string[]` - 标签，可选
-- `words?: string[]` - 单词列表，可选
+- `content: string` - 云词本内容
+- `brief: string` - 云词本简介
+- `tags: NotepadTag[]` - 标签，必须从以下值中选择：'小学'、'初中'、'高中'、'大学教科书'、'四级'、'六级'、'专四'、'专八'、'考研'、'新概念'、'SAT'、'托福'、'雅思'、'GRE'、'GMAT'、'托业'、'BEC'、'词典'、'词频'、'其他'
+- `status?: NotepadStatus` - 状态，可选
 
 **返回:**
 
@@ -424,7 +426,7 @@ const newNotepad = await client.notepads.create({
   title: '常用词汇',
   content: 'apple\nbanana\norange',
   brief: '常用水果单词',
-  tags: ['水果', '基础词汇'],
+  tags: ['小学', '四级'],
   status: NotepadStatus.PUBLISHED,
 });
 ```
@@ -434,21 +436,21 @@ const newNotepad = await client.notepads.create({
 ```typescript
 const updatedNotepad = await client.notepads.update('云词本ID', {
   title: '新标题',
-  description: '新描述',
-  tags: ['新标签1', '新标签2'],
-  addWords: ['添加单词1', '添加单词2'],
-  removeWords: ['移除单词1', '移除单词2'],
+  content: '新内容',
+  brief: '新简介',
+  tags: ['小学', '四级', '词频'],
+  status: NotepadStatus.PUBLISHED,
 });
 ```
 
 **参数:**
 
 - `id: string` - 云词本ID
-- `title?: string` - 云词本标题，可选
-- `description?: string` - 云词本描述，可选
-- `tags?: string[]` - 标签，可选
-- `addWords?: string[]` - 添加的单词列表，可选
-- `removeWords?: string[]` - 移除的单词列表，可选
+- `title: string` - 云词本标题
+- `content: string` - 云词本内容
+- `brief: string` - 云词本简介
+- `tags: NotepadTag[]` - 标签，必须从以下值中选择：'小学'、'初中'、'高中'、'大学教科书'、'四级'、'六级'、'专四'、'专八'、'考研'、'新概念'、'SAT'、'托福'、'雅思'、'GRE'、'GMAT'、'托业'、'BEC'、'词典'、'词频'、'其他'
+- `status?: NotepadStatus` - 状态，可选
 
 **返回:**
 
@@ -462,7 +464,7 @@ const updatedNotepad = await client.notepads.update('notepad-id-123', {
   title: '常用词汇（更新）',
   content: 'apple\nbanana\norange\npear',
   brief: '常用水果单词（更新）',
-  tags: ['水果', '基础词汇', '扩展'],
+  tags: ['小学', '词频'],
   status: NotepadStatus.PUBLISHED,
 });
 ```

@@ -142,6 +142,31 @@ export enum NotepadType {
 }
 
 /**
+ * 云词本标签类型
+ */
+export type NotepadTag =
+  | '小学'
+  | '初中'
+  | '高中'
+  | '大学教科书'
+  | '四级'
+  | '六级'
+  | '专四'
+  | '专八'
+  | '考研'
+  | '新概念'
+  | 'SAT'
+  | '托福'
+  | '雅思'
+  | 'GRE'
+  | 'GMAT'
+  | '托业'
+  | 'BEC'
+  | '词典'
+  | '词频'
+  | '其他';
+
+/**
  * 云词本解析结果项目类型
  */
 export interface NotepadParsedItem {
@@ -163,7 +188,7 @@ export interface Notepad {
   content: string;
   title: string;
   brief: string;
-  tags: string[];
+  tags: NotepadTag[];
   list: NotepadParsedItem[];
   created_time: string;
   updated_time: string;
@@ -176,7 +201,7 @@ export interface CreateNotepadParams {
   title: string;
   content: string;
   brief: string;
-  tags: string[];
+  tags: NotepadTag[];
   status?: NotepadStatus;
 }
 
@@ -187,7 +212,7 @@ export interface UpdateNotepadParams {
   title: string;
   content: string;
   brief: string;
-  tags: string[];
+  tags: NotepadTag[];
   status?: NotepadStatus;
 }
 
@@ -201,7 +226,7 @@ export interface BriefNotepad {
   status: NotepadStatus;
   title: string;
   brief: string;
-  tags: string[];
+  tags: NotepadTag[];
   created_time: string;
   updated_time: string;
 }
