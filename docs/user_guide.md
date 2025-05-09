@@ -275,6 +275,7 @@ const note = await client.notes.create({
   vocId: '单词ID',
   noteType: '助记类型',
   note: '助记内容',
+  tags: ['词根词缀', '联想']
 });
 ```
 
@@ -283,6 +284,7 @@ const note = await client.notes.create({
 - `vocId: string` - 单词ID
 - `noteType: string` - 助记类型
 - `note: string` - 助记内容
+- `tags: NoteTag[]` - 标签，必须从以下值中选择：'词根词缀'、'固定搭配'、'近反义词'、'派生'、'词源'、'辨析'、'语法'、'联想'、'谐音'、'串记'、'口诀'、'扩展'、'合成'、'其他'
 
 **返回:**
 
@@ -296,6 +298,7 @@ const note = await client.notes.create({
   vocId: '5a7BFf4F63612e5AD9fdebB7a50D3881',
   noteType: '谐音',
   note: '苹果的助记内容',
+  tags: ['谐音', '联想']
 });
 ```
 
@@ -305,6 +308,7 @@ const note = await client.notes.create({
 const updatedNote = await client.notes.update('助记ID', {
   noteType: '新助记类型',
   note: '新助记内容',
+  tags: ['词根词缀', '扩展']
 });
 ```
 
@@ -313,6 +317,7 @@ const updatedNote = await client.notes.update('助记ID', {
 - `id: string` - 助记ID
 - `noteType: string` - 助记类型
 - `note: string` - 助记内容
+- `tags: NoteTag[]` - 标签，必须从以下值中选择：'词根词缀'、'固定搭配'、'近反义词'、'派生'、'词源'、'辨析'、'语法'、'联想'、'谐音'、'串记'、'口诀'、'扩展'、'合成'、'其他'
 
 **返回:**
 
@@ -325,6 +330,7 @@ const updatedNote = await client.notes.update('助记ID', {
 const updatedNote = await client.notes.update('note-id-123', {
   noteType: '谐音',
   note: '更新后的助记内容',
+  tags: ['谐音', '串记', '口诀']
 });
 ```
 

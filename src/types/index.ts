@@ -96,12 +96,32 @@ export enum NoteStatus {
 }
 
 /**
+ * 助记标签类型
+ */
+export type NoteTag =
+  | '词根词缀'
+  | '固定搭配'
+  | '近反义词'
+  | '派生'
+  | '词源'
+  | '辨析'
+  | '语法'
+  | '联想'
+  | '谐音'
+  | '串记'
+  | '口诀'
+  | '扩展'
+  | '合成'
+  | '其他';
+
+/**
  * 助记类型
  */
 export interface Note {
   id: string;
   note_type: string;
   note: string;
+  tags: NoteTag[];
   status: NoteStatus;
   created_time: string;
   updated_time: string;
@@ -114,6 +134,7 @@ export interface CreateNoteParams {
   vocId: string;
   noteType: string;
   note: string;
+  tags: NoteTag[];
 }
 
 /**
@@ -122,6 +143,7 @@ export interface CreateNoteParams {
 export interface UpdateNoteParams {
   noteType: string;
   note: string;
+  tags: NoteTag[];
 }
 
 /**
