@@ -53,8 +53,7 @@ export type InterpretationTag =
   | 'SAT'
   | 'ACT'
   | '法学'
-  | '医学'
-  | '>-<';
+  | '医学';
 
 /**
  * 释义类型
