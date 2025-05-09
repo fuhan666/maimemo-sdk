@@ -26,12 +26,43 @@ export enum InterpretationStatus {
 }
 
 /**
+ * 释义标签类型
+ */
+export type InterpretationTag =
+  | '考研'
+  | '简明'
+  | '详细'
+  | '英英'
+  | '小学'
+  | '初中'
+  | '高中'
+  | '四级'
+  | '六级'
+  | '专升本'
+  | '专四'
+  | '专八'
+  | '考博'
+  | '雅思'
+  | '托福'
+  | '托业'
+  | '新概念'
+  | 'GRE'
+  | 'GMAT'
+  | 'BEC'
+  | 'MBA'
+  | 'SAT'
+  | 'ACT'
+  | '法学'
+  | '医学'
+  | '>-<';
+
+/**
  * 释义类型
  */
 export interface Interpretation {
   id: string;
   interpretation: string;
-  tags: string[];
+  tags: InterpretationTag[];
   status: InterpretationStatus;
   created_time: string;
   updated_time: string;
@@ -43,7 +74,7 @@ export interface Interpretation {
 export interface CreateInterpretationParams {
   vocId: string;
   interpretation: string;
-  tags: string[];
+  tags: InterpretationTag[];
   status?: InterpretationStatus;
 }
 
@@ -52,7 +83,7 @@ export interface CreateInterpretationParams {
  */
 export interface UpdateInterpretationParams {
   interpretation: string;
-  tags: string[];
+  tags: InterpretationTag[];
   status?: InterpretationStatus;
 }
 
