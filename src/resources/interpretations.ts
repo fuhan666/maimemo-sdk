@@ -5,6 +5,7 @@ import {
   InterpretationStatus,
   CreateInterpretationParams,
   UpdateInterpretationParams,
+  ApiResponseData,
 } from '../types';
 
 /**
@@ -29,7 +30,9 @@ export class InterpretationService extends BaseService {
       const response = await this.client.get(this.basePath, {
         params: { voc_id: vocId },
       });
-      return response.data.interpretations;
+      return (
+        response.data as ApiResponseData<{ interpretations: Interpretation[] }>
+      ).data.interpretations;
     } catch (error) {
       return this.handleError(error);
     }
@@ -57,7 +60,9 @@ export class InterpretationService extends BaseService {
           status,
         },
       });
-      return response.data.interpretation;
+      return (
+        response.data as ApiResponseData<{ interpretation: Interpretation }>
+      ).data.interpretation;
     } catch (error) {
       return this.handleError(error);
     }
@@ -87,7 +92,9 @@ export class InterpretationService extends BaseService {
           status,
         },
       });
-      return response.data.interpretation;
+      return (
+        response.data as ApiResponseData<{ interpretation: Interpretation }>
+      ).data.interpretation;
     } catch (error) {
       return this.handleError(error);
     }

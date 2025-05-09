@@ -6,6 +6,7 @@ import {
   NotepadStatus,
   CreateNotepadParams,
   UpdateNotepadParams,
+  ApiResponseData,
 } from '../types';
 
 /**
@@ -39,7 +40,10 @@ export class NotepadService extends BaseService {
       }
 
       const response = await this.client.get(this.basePath, { params });
-      return response.data.notepads;
+      const typedData = response.data as ApiResponseData<{
+        notepads: BriefNotepad[];
+      }>;
+      return typedData.data.notepads;
     } catch (error) {
       return this.handleError(error);
     }
@@ -53,7 +57,8 @@ export class NotepadService extends BaseService {
   async get(id: string): Promise<Notepad> {
     try {
       const response = await this.client.get(`${this.basePath}/${id}`);
-      return response.data.notepad;
+      const typedData = response.data as ApiResponseData<{ notepad: Notepad }>;
+      return typedData.data.notepad;
     } catch (error) {
       return this.handleError(error);
     }
@@ -83,7 +88,8 @@ export class NotepadService extends BaseService {
           status,
         },
       });
-      return response.data.notepad;
+      const typedData = response.data as ApiResponseData<{ notepad: Notepad }>;
+      return typedData.data.notepad;
     } catch (error) {
       return this.handleError(error);
     }
@@ -114,7 +120,8 @@ export class NotepadService extends BaseService {
           status,
         },
       });
-      return response.data.notepad;
+      const typedData = response.data as ApiResponseData<{ notepad: Notepad }>;
+      return typedData.data.notepad;
     } catch (error) {
       return this.handleError(error);
     }
@@ -128,7 +135,8 @@ export class NotepadService extends BaseService {
   async delete(id: string): Promise<Notepad> {
     try {
       const response = await this.client.delete(`${this.basePath}/${id}`);
-      return response.data.notepad;
+      const typedData = response.data as ApiResponseData<{ notepad: Notepad }>;
+      return typedData.data.notepad;
     } catch (error) {
       return this.handleError(error);
     }

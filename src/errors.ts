@@ -25,14 +25,13 @@ export class NetworkError extends MaimemoError {
  */
 export class APIError extends MaimemoError {
   public status: number;
-  public code?: string;
   public data?: any;
 
-  constructor(status: number, message: string, code?: string, data?: any) {
+  constructor(status: number, message: string, data?: any) {
     super(message);
     this.name = 'APIError';
     this.status = status;
-    this.code = code;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.data = data;
     Object.setPrototypeOf(this, APIError.prototype);
   }
@@ -42,8 +41,8 @@ export class APIError extends MaimemoError {
  * 认证错误
  */
 export class AuthenticationError extends APIError {
-  constructor(status: number, message: string, code?: string, data?: any) {
-    super(status, message, code, data);
+  constructor(status: number, message: string, data?: any) {
+    super(status, message, data);
     this.name = 'AuthenticationError';
     Object.setPrototypeOf(this, AuthenticationError.prototype);
   }

@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { BaseService } from './base';
-import { Vocabulary } from '../types';
+import { Vocabulary, ApiResponseData } from '../types';
 
 /**
  * 单词资源服务
@@ -24,7 +24,8 @@ export class VocabularyService extends BaseService {
       const response = await this.client.get(this.basePath, {
         params: { spelling },
       });
-      return response.data.voc;
+      const typedData = response.data as ApiResponseData<{ voc: Vocabulary }>;
+      return typedData.data.voc;
     } catch (error) {
       return this.handleError(error);
     }

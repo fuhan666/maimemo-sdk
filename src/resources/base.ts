@@ -7,15 +7,7 @@ import {
   TimeoutError,
   NotFoundError,
 } from '../errors';
-
-/**
- * API响应数据接口
- */
-interface ApiResponseData {
-  code?: string;
-  message?: string;
-  [key: string]: any;
-}
+import { ApiResponseData } from '../types';
 
 /**
  * 基础资源服务类
@@ -57,7 +49,6 @@ export abstract class BaseService {
           throw new AuthenticationError(
             status,
             `Authentication failed: ${axiosError.message}`,
-            data?.code,
             data,
           );
         }
@@ -70,7 +61,6 @@ export abstract class BaseService {
         throw new APIError(
           status,
           `API Error ${status}: ${JSON.stringify(data)}`,
-          data?.code,
           data,
         );
       } else if (axiosError.request) {
@@ -84,6 +74,14 @@ export abstract class BaseService {
     }
 
     // 其他错误
-    throw new MaimemoError(`Unexpected error: ${error.message || error}`);
+    let errorMessage: string;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (error && typeof error.message === 'string') {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      errorMessage = error.message;
+    } else {
+      errorMessage = String(error);
+    }
+    throw new MaimemoError(`Unexpected error: ${errorMessage}`);
   }
 }

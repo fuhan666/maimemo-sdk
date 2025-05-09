@@ -1,6 +1,11 @@
 import { AxiosInstance } from 'axios';
 import { BaseService } from './base';
-import { Phrase, CreatePhraseParams, UpdatePhraseParams } from '../types';
+import {
+  Phrase,
+  CreatePhraseParams,
+  UpdatePhraseParams,
+  ApiResponseData,
+} from '../types';
 
 /**
  * 例句资源服务
@@ -24,7 +29,8 @@ export class PhraseService extends BaseService {
       const response = await this.client.get(this.basePath, {
         params: { voc_id: vocId },
       });
-      return response.data.phrases;
+      const typedData = response.data as ApiResponseData<{ phrases: Phrase[] }>;
+      return typedData.data.phrases;
     } catch (error) {
       return this.handleError(error);
     }
@@ -48,7 +54,8 @@ export class PhraseService extends BaseService {
           origin,
         },
       });
-      return response.data.phrase;
+      const typedData = response.data as ApiResponseData<{ phrase: Phrase }>;
+      return typedData.data.phrase;
     } catch (error) {
       return this.handleError(error);
     }
@@ -72,7 +79,8 @@ export class PhraseService extends BaseService {
           origin,
         },
       });
-      return response.data.phrase;
+      const typedData = response.data as ApiResponseData<{ phrase: Phrase }>;
+      return typedData.data.phrase;
     } catch (error) {
       return this.handleError(error);
     }
@@ -86,7 +94,8 @@ export class PhraseService extends BaseService {
   async delete(id: string): Promise<Phrase> {
     try {
       const response = await this.client.delete(`${this.basePath}/${id}`);
-      return response.data.phrase;
+      const typedData = response.data as ApiResponseData<{ phrase: Phrase }>;
+      return typedData.data.phrase;
     } catch (error) {
       return this.handleError(error);
     }

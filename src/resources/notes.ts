@@ -1,6 +1,11 @@
 import { AxiosInstance } from 'axios';
 import { BaseService } from './base';
-import { Note, CreateNoteParams, UpdateNoteParams } from '../types';
+import {
+  Note,
+  CreateNoteParams,
+  UpdateNoteParams,
+  ApiResponseData,
+} from '../types';
 
 /**
  * 助记资源服务
@@ -24,7 +29,8 @@ export class NoteService extends BaseService {
       const response = await this.client.get(this.basePath, {
         params: { voc_id: vocId },
       });
-      return response.data.notes;
+      const typedData = response.data as ApiResponseData<{ notes: Note[] }>;
+      return typedData.data.notes;
     } catch (error) {
       return this.handleError(error);
     }
@@ -46,7 +52,8 @@ export class NoteService extends BaseService {
           note,
         },
       });
-      return response.data.note;
+      const typedData = response.data as ApiResponseData<{ note: Note }>;
+      return typedData.data.note;
     } catch (error) {
       return this.handleError(error);
     }
@@ -68,7 +75,8 @@ export class NoteService extends BaseService {
           note,
         },
       });
-      return response.data.note;
+      const typedData = response.data as ApiResponseData<{ note: Note }>;
+      return typedData.data.note;
     } catch (error) {
       return this.handleError(error);
     }

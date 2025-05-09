@@ -7,6 +7,16 @@ export interface MaimemoOptions {
 }
 
 /**
+ * API响应数据接口
+ */
+export interface ApiResponseData<T = any> {
+  data: T;
+  errors?: any[];
+  success?: boolean;
+  [key: string]: any;
+}
+
+/**
  * 释义状态
  */
 export enum InterpretationStatus {
