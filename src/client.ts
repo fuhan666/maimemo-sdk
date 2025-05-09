@@ -1,13 +1,7 @@
-import axios, {
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError,
-  InternalAxiosRequestConfig,
-} from 'axios';
+import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { DEFAULT_OPTIONS } from './config';
 import { MaimemoOptions } from './types';
-import { AuthenticationError, MaimemoError, ValidationError } from './errors';
+import { AuthenticationError, ValidationError } from './errors';
 
 // 导入资源服务
 import { VocabularyService } from './resources/vocabulary';
@@ -17,22 +11,11 @@ import { NotepadService } from './resources/notepads';
 import { PhraseService } from './resources/phrases';
 
 /**
- * 请求重试配置选项
- */
-export interface RetryConfig {
-  enabled: boolean;
-  retries: number;
-  retryDelay: number;
-  retryCondition: (error: AxiosError) => boolean;
-}
-
-/**
  * 墨墨背单词API客户端
  */
 export class Maimemo {
   private client: AxiosInstance;
   private options: MaimemoOptions;
-  private retryConfig: RetryConfig;
 
   // 资源服务
   public vocabulary: VocabularyService;
@@ -53,23 +36,9 @@ export class Maimemo {
 
     this.options = { ...DEFAULT_OPTIONS, ...options };
 
-    // 设置请求重试配置
-    this.retryConfig = {
-      enabled: options.retryEnabled ?? true,
-      retries: options.maxRetries ?? 3,
-      retryDelay: options.retryDelay ?? 1000,
-      retryCondition: (error: AxiosError) => {
-        // 默认只在网络错误或5xx错误时重试
-        return Boolean(
-          error.code === 'ECONNABORTED' || !error.response || error.response.status >= 500,
-        );
-      },
-    };
-
     // 创建axios实例
     this.client = axios.create({
       baseURL: this.options.baseUrl,
-      timeout: this.options.timeout,
       headers: {
         ...this.options.headers,
         Authorization: `Bearer ${token}`,
@@ -91,47 +60,14 @@ export class Maimemo {
    * 设置请求拦截器
    */
   private setupInterceptors(): void {
-    // 请求拦截器 - 可以在这里添加通用的请求处理逻辑
-    this.client.interceptors.request.use(
-      (config: InternalAxiosRequestConfig) => {
-        // 在请求发送前可以进行一些处理
-        return config;
-      },
-      (error: any) => {
-        return Promise.reject(error);
-      },
-    );
-
-    // 响应拦截器 - 处理响应并添加重试逻辑
+    // 响应拦截器 - 处理响应
     this.client.interceptors.response.use(
       (response: AxiosResponse) => {
         // 处理成功的响应
         return response;
       },
-      async (error: AxiosError) => {
-        // 请求失败的处理逻辑
-        const config = error.config as AxiosRequestConfig & { _retryCount?: number };
-
-        // 如果未启用重试或已达最大重试次数，直接返回错误
-        if (
-          !this.retryConfig.enabled ||
-          !config ||
-          config._retryCount === undefined ||
-          config._retryCount >= this.retryConfig.retries ||
-          (this.retryConfig.retryCondition && !this.retryConfig.retryCondition(error))
-        ) {
-          return Promise.reject(error);
-        }
-
-        // 增加重试计数
-        config._retryCount = (config._retryCount || 0) + 1;
-
-        // 延迟后重试
-        const delay = this.retryConfig.retryDelay;
-        await new Promise((resolve) => setTimeout(resolve, delay));
-
-        // 重新发送请求
-        return this.client(config);
+      (error: AxiosError) => {
+        return Promise.reject(error);
       },
     );
   }

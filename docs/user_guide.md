@@ -55,15 +55,15 @@ async function getWordDetails() {
     // 查询单词获取ID
     const vocabulary = await client.vocabulary.query('apple');
     console.log(`单词ID: ${vocabulary.id}, 拼写: ${vocabulary.spelling}`);
-    
+
     // 获取单词的释义
     const interpretations = await client.interpretations.list(vocabulary.id);
     console.log('释义列表:', interpretations);
-    
+
     // 获取单词的助记
     const notes = await client.notes.list(vocabulary.id);
     console.log('助记列表:', notes);
-    
+
     // 获取单词的例句
     const phrases = await client.phrases.list(vocabulary.id);
     console.log('例句列表:', phrases);
@@ -88,24 +88,12 @@ const client = new Maimemo(token, options);
 - `token: string` - API认证令牌
 - `options?: MaimemoOptions` - 可选的SDK配置
   - `baseUrl?: string` - API基础URL，默认为'https://open.maimemo.com/open'
-  - `timeout?: number` - 请求超时时间，默认为10000ms
   - `headers?: Record<string, string>` - 自定义HTTP头
-  - `retryEnabled?: boolean` - 是否启用重试，默认为true
-  - `maxRetries?: number` - 最大重试次数，默认为3
-  - `retryDelay?: number` - 重试延迟时间，默认为1000ms
 
 **示例:**
 
 ```typescript
-// 使用自定义选项初始化客户端
-const clientWithOptions = new Maimemo('your-token', {
-  baseUrl: 'https://custom-api.example.com/open',
-  timeout: 5000,
-  // 重试配置
-  retryEnabled: true,
-  maxRetries: 3,
-  retryDelay: 1000,
-});
+const client = new Maimemo('your-token');
 ```
 
 ### 单词API
@@ -117,12 +105,15 @@ const vocabulary = await client.vocabulary.query(spelling);
 ```
 
 **参数:**
+
 - `spelling: string` - 单词拼写
 
 **返回:**
+
 - `Promise<Vocabulary>` - 包含单词ID和拼写的对象
 
 **示例:**
+
 ```typescript
 // 根据拼写查询单词
 const vocabulary = await client.vocabulary.query('apple');
@@ -139,12 +130,15 @@ const interpretations = await client.interpretations.list(vocId);
 ```
 
 **参数:**
+
 - `vocId: string` - 单词ID
 
 **返回:**
+
 - `Promise<Interpretation[]>` - 释义对象数组
 
 **示例:**
+
 ```typescript
 // 获取单词的释义列表
 const interpretations = await client.interpretations.list('5a7BFf4F63612e5AD9fdebB7a50D3881');
@@ -157,20 +151,23 @@ const interpretation = await client.interpretations.create({
   vocId: '单词ID',
   interpretation: '释义内容',
   tags: ['标签1', '标签2'],
-  status: InterpretationStatus.PUBLISHED
+  status: InterpretationStatus.PUBLISHED,
 });
 ```
 
 **参数:**
+
 - `vocId: string` - 单词ID
 - `interpretation: string` - 释义内容
 - `tags: string[]` - 标签
 - `status?: InterpretationStatus` - 状态，可选，默认PUBLISHED
 
 **返回:**
+
 - `Promise<Interpretation>` - 创建的释义对象
 
 **示例:**
+
 ```typescript
 // 为单词创建释义
 const interpretation = await client.interpretations.create({
@@ -187,20 +184,23 @@ const interpretation = await client.interpretations.create({
 const updatedInterpretation = await client.interpretations.update('释义ID', {
   interpretation: '新释义内容',
   tags: ['新标签1', '新标签2'],
-  status: InterpretationStatus.PUBLISHED
+  status: InterpretationStatus.PUBLISHED,
 });
 ```
 
 **参数:**
+
 - `id: string` - 释义ID
 - `interpretation: string` - 释义内容
 - `tags: string[]` - 标签
 - `status?: InterpretationStatus` - 状态，可选
 
 **返回:**
+
 - `Promise<Interpretation>` - 更新后的释义对象
 
 **示例:**
+
 ```typescript
 // 更新释义
 const updatedInterpretation = await client.interpretations.update('8f7e6d5c4b3a2190', {
@@ -217,9 +217,11 @@ await client.interpretations.delete('释义ID');
 ```
 
 **参数:**
+
 - `id: string` - 释义ID
 
 **示例:**
+
 ```typescript
 // 删除释义
 await client.interpretations.delete('8f7e6d5c4b3a2190');
@@ -234,12 +236,15 @@ const notes = await client.notes.list(vocId);
 ```
 
 **参数:**
+
 - `vocId: string` - 单词ID
 
 **返回:**
+
 - `Promise<Note[]>` - 助记对象数组
 
 **示例:**
+
 ```typescript
 // 获取单词的助记列表
 const notes = await client.notes.list('5a7BFf4F63612e5AD9fdebB7a50D3881');
@@ -251,19 +256,22 @@ const notes = await client.notes.list('5a7BFf4F63612e5AD9fdebB7a50D3881');
 const note = await client.notes.create({
   vocId: '单词ID',
   noteType: '助记类型',
-  note: '助记内容'
+  note: '助记内容',
 });
 ```
 
 **参数:**
+
 - `vocId: string` - 单词ID
 - `noteType: string` - 助记类型
 - `note: string` - 助记内容
 
 **返回:**
+
 - `Promise<Note>` - 创建的助记对象
 
 **示例:**
+
 ```typescript
 // 为单词创建助记
 const note = await client.notes.create({
@@ -278,19 +286,22 @@ const note = await client.notes.create({
 ```typescript
 const updatedNote = await client.notes.update('助记ID', {
   noteType: '新助记类型',
-  note: '新助记内容'
+  note: '新助记内容',
 });
 ```
 
 **参数:**
+
 - `id: string` - 助记ID
 - `noteType: string` - 助记类型
 - `note: string` - 助记内容
 
 **返回:**
+
 - `Promise<Note>` - 更新后的助记对象
 
 **示例:**
+
 ```typescript
 // 更新助记
 const updatedNote = await client.notes.update('note-id-123', {
@@ -306,9 +317,11 @@ await client.notes.delete('助记ID');
 ```
 
 **参数:**
+
 - `id: string` - 助记ID
 
 **示例:**
+
 ```typescript
 // 删除助记
 await client.notes.delete('note-id-123');
@@ -323,14 +336,17 @@ const notepads = await client.notepads.list(limit, offset, ids);
 ```
 
 **参数:**
+
 - `limit: number` - 每页数量
 - `offset: number` - 偏移量
 - `ids?: string[]` - 可选，指定云词本ID列表
 
 **返回:**
+
 - `Promise<BriefNotepad[]>` - 简要云词本对象数组
 
 **示例:**
+
 ```typescript
 // 获取云词本列表
 const notepads = await client.notepads.list(10, 0);
@@ -346,12 +362,15 @@ const notepad = await client.notepads.get(id);
 ```
 
 **参数:**
+
 - `id: string` - 云词本ID
 
 **返回:**
+
 - `Promise<Notepad>` - 云词本详情对象
 
 **示例:**
+
 ```typescript
 // 获取云词本详情
 const notepad = await client.notepads.get('notepad-id-123');
@@ -364,20 +383,23 @@ const notepad = await client.notepads.create({
   title: '云词本标题',
   description: '云词本描述',
   tags: ['标签1', '标签2'],
-  words: ['单词1', '单词2']
+  words: ['单词1', '单词2'],
 });
 ```
 
 **参数:**
+
 - `title: string` - 云词本标题
 - `description?: string` - 云词本描述，可选
 - `tags?: string[]` - 标签，可选
 - `words?: string[]` - 单词列表，可选
 
 **返回:**
+
 - `Promise<Notepad>` - 创建的云词本对象
 
 **示例:**
+
 ```typescript
 // 创建云词本
 const newNotepad = await client.notepads.create({
@@ -397,11 +419,12 @@ const updatedNotepad = await client.notepads.update('云词本ID', {
   description: '新描述',
   tags: ['新标签1', '新标签2'],
   addWords: ['添加单词1', '添加单词2'],
-  removeWords: ['移除单词1', '移除单词2']
+  removeWords: ['移除单词1', '移除单词2'],
 });
 ```
 
 **参数:**
+
 - `id: string` - 云词本ID
 - `title?: string` - 云词本标题，可选
 - `description?: string` - 云词本描述，可选
@@ -410,9 +433,11 @@ const updatedNotepad = await client.notepads.update('云词本ID', {
 - `removeWords?: string[]` - 移除的单词列表，可选
 
 **返回:**
+
 - `Promise<Notepad>` - 更新后的云词本对象
 
 **示例:**
+
 ```typescript
 // 更新云词本
 const updatedNotepad = await client.notepads.update('notepad-id-123', {
@@ -431,9 +456,11 @@ await client.notepads.delete('云词本ID');
 ```
 
 **参数:**
+
 - `id: string` - 云词本ID
 
 **示例:**
+
 ```typescript
 // 删除云词本
 await client.notepads.delete('notepad-id-123');
@@ -448,12 +475,15 @@ const phrases = await client.phrases.list(vocId);
 ```
 
 **参数:**
+
 - `vocId: string` - 单词ID
 
 **返回:**
+
 - `Promise<Phrase[]>` - 例句对象数组
 
 **示例:**
+
 ```typescript
 // 获取单词的例句列表
 const phrases = await client.phrases.list('5a7BFf4F63612e5AD9fdebB7a50D3881');
@@ -467,11 +497,12 @@ const phrase = await client.phrases.create({
   phrase: '例句内容',
   translation: '例句翻译',
   tags: ['标签1', '标签2'],
-  source: '例句来源'
+  source: '例句来源',
 });
 ```
 
 **参数:**
+
 - `vocId: string` - 单词ID
 - `phrase: string` - 例句内容
 - `translation: string` - 例句翻译
@@ -479,9 +510,11 @@ const phrase = await client.phrases.create({
 - `source?: string` - 例句来源，可选
 
 **返回:**
+
 - `Promise<Phrase>` - 创建的例句对象
 
 **示例:**
+
 ```typescript
 // 为单词创建例句
 const phrase = await client.phrases.create({
@@ -500,11 +533,12 @@ const updatedPhrase = await client.phrases.update('例句ID', {
   phrase: '新例句内容',
   translation: '新例句翻译',
   tags: ['新标签1', '新标签2'],
-  source: '新例句来源'
+  source: '新例句来源',
 });
 ```
 
 **参数:**
+
 - `id: string` - 例句ID
 - `phrase?: string` - 例句内容，可选
 - `translation?: string` - 例句翻译，可选
@@ -512,9 +546,11 @@ const updatedPhrase = await client.phrases.update('例句ID', {
 - `source?: string` - 例句来源，可选
 
 **返回:**
+
 - `Promise<Phrase>` - 更新后的例句对象
 
 **示例:**
+
 ```typescript
 // 更新例句
 const updatedPhrase = await client.phrases.update('phrase-id-123', {
@@ -532,9 +568,11 @@ await client.phrases.delete('例句ID');
 ```
 
 **参数:**
+
 - `id: string` - 例句ID
 
 **示例:**
+
 ```typescript
 // 删除例句
 await client.phrases.delete('phrase-id-123');
@@ -605,18 +643,6 @@ if (isAuthenticated) {
 } else {
   console.log('用户认证无效，请更新token');
 }
-```
-
-### 请求重试
-
-SDK内置了自动重试机制，当遇到网络错误或服务器错误（5xx状态码）时会自动重试请求。您可以在初始化客户端时配置重试行为：
-
-```typescript
-const client = new Maimemo('your-token-here', {
-  retryEnabled: true,  // 启用重试
-  maxRetries: 5,       // 最大重试次数
-  retryDelay: 2000     // 重试间隔时间(毫秒)
-});
 ```
 
 ## 常见问题

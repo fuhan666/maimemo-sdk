@@ -5,9 +5,7 @@ import { MaimemoOptions } from './types';
  */
 export const DEFAULT_OPTIONS: MaimemoOptions = {
   baseUrl: 'https://open.maimemo.com/open',
-  timeout: 10000,
   headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
+    Accept: 'application/json',
   },
-}; 
+};

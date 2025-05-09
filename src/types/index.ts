@@ -3,12 +3,7 @@
  */
 export interface MaimemoOptions {
   baseUrl?: string;
-  timeout?: number;
   headers?: Record<string, string>;
-  // 重试配置
-  retryEnabled?: boolean;
-  maxRetries?: number;
-  retryDelay?: number;
 }
 
 /**
