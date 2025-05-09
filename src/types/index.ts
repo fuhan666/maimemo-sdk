@@ -240,6 +240,35 @@ export enum PhraseStatus {
 }
 
 /**
+ * 例句标签类型
+ */
+export type PhraseTag =
+  | '小学'
+  | '初中'
+  | '高中'
+  | '四级'
+  | '六级'
+  | '专升本'
+  | '专四'
+  | '专八'
+  | '考研'
+  | '考博'
+  | '新概念'
+  | 'SAT'
+  | '托福'
+  | '雅思'
+  | 'GRE'
+  | 'GMAT'
+  | '托业'
+  | 'BEC'
+  | '词典'
+  | 'MBA'
+  | 'ACT'
+  | '法学'
+  | '医学'
+  | '短语';
+
+/**
  * 例句中的单词高亮区间
  */
 export interface PhraseHighlightRange {
@@ -254,7 +283,7 @@ export interface Phrase {
   id: string;
   phrase: string;
   interpretation: string;
-  tags: string[];
+  tags: PhraseTag[];
   highlight: PhraseHighlightRange[];
   status: PhraseStatus;
   created_time: string;
@@ -269,7 +298,7 @@ export interface CreatePhraseParams {
   vocId: string;
   phrase: string;
   interpretation: string;
-  tags: string[];
+  tags: PhraseTag[];
   origin: string;
 }
 
@@ -279,7 +308,7 @@ export interface CreatePhraseParams {
 export interface UpdatePhraseParams {
   phrase: string;
   interpretation: string;
-  tags: string[];
+  tags: PhraseTag[];
   origin: string;
 }
 

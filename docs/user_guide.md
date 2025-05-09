@@ -525,9 +525,9 @@ const phrase = await client.phrases.create({
 
 - `vocId: string` - 单词ID
 - `phrase: string` - 例句内容
-- `translation: string` - 例句翻译
-- `tags?: string[]` - 标签，可选
-- `source?: string` - 例句来源，可选
+- `interpretation: string` - 例句翻译
+- `tags: PhraseTag[]` - 标签，必须从以下值中选择：'小学'、'初中'、'高中'、'四级'、'六级'、'专升本'、'专四'、'专八'、'考研'、'考博'、'新概念'、'SAT'、'托福'、'雅思'、'GRE'、'GMAT'、'托业'、'BEC'、'词典'、'MBA'、'ACT'、'法学'、'医学'、'短语'
+- `origin: string` - 例句来源
 
 **返回:**
 
@@ -541,7 +541,7 @@ const phrase = await client.phrases.create({
   vocId: '5a7BFf4F63612e5AD9fdebB7a50D3881',
   phrase: 'This is an apple.',
   interpretation: '这是一个苹果。',
-  tags: ['基础', '简单'],
+  tags: ['小学', '短语'],
   origin: '自定义',
 });
 ```
@@ -551,19 +551,19 @@ const phrase = await client.phrases.create({
 ```typescript
 const updatedPhrase = await client.phrases.update('例句ID', {
   phrase: '新例句内容',
-  translation: '新例句翻译',
-  tags: ['新标签1', '新标签2'],
-  source: '新例句来源',
+  interpretation: '新例句翻译',
+  tags: ['小学', '四级'],
+  origin: '新例句来源',
 });
 ```
 
 **参数:**
 
 - `id: string` - 例句ID
-- `phrase?: string` - 例句内容，可选
-- `translation?: string` - 例句翻译，可选
-- `tags?: string[]` - 标签，可选
-- `source?: string` - 例句来源，可选
+- `phrase: string` - 例句内容
+- `interpretation: string` - 例句翻译
+- `tags: PhraseTag[]` - 标签，必须从以下值中选择：'小学'、'初中'、'高中'、'四级'、'六级'、'专升本'、'专四'、'专八'、'考研'、'考博'、'新概念'、'SAT'、'托福'、'雅思'、'GRE'、'GMAT'、'托业'、'BEC'、'词典'、'MBA'、'ACT'、'法学'、'医学'、'短语'
+- `origin: string` - 例句来源
 
 **返回:**
 
@@ -576,7 +576,7 @@ const updatedPhrase = await client.phrases.update('例句ID', {
 const updatedPhrase = await client.phrases.update('phrase-id-123', {
   phrase: 'This is a red apple.',
   interpretation: '这是一个红苹果。',
-  tags: ['基础', '简单', '颜色'],
+  tags: ['小学', '四级', '短语'],
   origin: '自定义',
 });
 ```
