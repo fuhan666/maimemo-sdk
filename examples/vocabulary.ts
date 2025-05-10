@@ -80,33 +80,9 @@ async function deleteInterpretation(interpretationId: string) {
   }
 }
 
-// 验证认证状态
-async function checkAuthentication() {
-  try {
-    const isAuthenticated = await client.checkAuth();
-    if (isAuthenticated) {
-      console.log('认证有效');
-      return true;
-    } else {
-      console.log('认证无效');
-      return false;
-    }
-  } catch (error) {
-    console.error('检查认证状态失败:', error);
-    return false;
-  }
-}
-
 // 主函数
 async function main() {
   try {
-    console.log('验证认证状态...');
-    const isAuthenticated = await checkAuthentication();
-    if (!isAuthenticated) {
-      console.error('认证失败，请检查token');
-      return;
-    }
-
     console.log('开始查询单词...');
     const vocabulary = await queryVocabulary();
 

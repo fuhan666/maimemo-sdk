@@ -36,8 +36,6 @@
     - [错误类型](#错误类型)
     - [通用错误码](#通用错误码)
     - [错误处理示例](#错误处理示例)
-  - [高级特性](#高级特性)
-    - [认证状态检查](#认证状态检查)
 
 ## 简介
 
@@ -652,21 +650,5 @@ try {
   } else {
     console.error('未知错误：', error);
   }
-}
-```
-
-## 高级特性
-
-### 认证状态检查
-
-可以使用SDK检查当前 token 的认证状态：
-
-```typescript
-// 检查用户认证状态
-const isAuthenticated = await client.checkAuth();
-if (isAuthenticated) {
-  console.log('用户认证有效');
-} else {
-  console.log('用户认证无效，请更新token');
 }
 ```

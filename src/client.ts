@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { DEFAULT_OPTIONS } from './config';
 import { MaimemoOptions } from './types';
-import { AuthenticationError, ValidationError } from './errors';
+import { ValidationError } from './errors';
 
 // 导入资源服务
 import { VocabularyService } from './resources/vocabulary';
@@ -70,24 +70,5 @@ export class Maimemo {
         return Promise.reject(error);
       },
     );
-  }
-
-  /**
-   * 检查用户认证状态
-   * @returns 如果认证有效返回true
-   */
-  async checkAuth(): Promise<boolean> {
-    try {
-      // 尝试一个简单的API调用来验证认证状态
-      await this.client.get('/api/v1/vocabulary', {
-        params: { spelling: 'test' },
-      });
-      return true;
-    } catch (error) {
-      if (error instanceof AuthenticationError) {
-        return false;
-      }
-      throw error;
-    }
   }
 }
