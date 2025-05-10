@@ -22,7 +22,7 @@ async function queryVocabulary() {
   }
 }
 
-// 创建释义示例
+// 创建释义
 async function createInterpretation(vocId: string) {
   try {
     const interpretation = await client.interpretations.create({
@@ -38,7 +38,7 @@ async function createInterpretation(vocId: string) {
   }
 }
 
-// 更新释义示例
+// 更新释义
 async function updateInterpretation(interpretationId: string) {
   try {
     const updatedInterpretation = await client.interpretations.update(
@@ -56,7 +56,7 @@ async function updateInterpretation(interpretationId: string) {
   }
 }
 
-// 获取单词释义示例
+// 获取单词释义
 async function getInterpretations(vocId: string) {
   try {
     const interpretations = await client.interpretations.list(vocId);
@@ -68,12 +68,11 @@ async function getInterpretations(vocId: string) {
   }
 }
 
-// 删除释义示例
+// 删除释义
 async function deleteInterpretation(interpretationId: string) {
   try {
-    await client.interpretations.delete(interpretationId);
-    console.log('释义删除成功');
-    return true;
+    const deletedResult = await client.interpretations.delete(interpretationId);
+    console.log('释义删除结果:', deletedResult);
   } catch (error) {
     console.error('删除释义失败:', error);
     throw error;
