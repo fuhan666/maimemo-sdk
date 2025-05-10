@@ -22,6 +22,10 @@
       - [更新助记](#更新助记)
       - [删除助记](#删除助记)
     - [云词本API](#云词本api)
+      - [云词本 `content` 字段解析说明](#云词本-content-字段解析说明)
+        - [1. 章节模式](#1-章节模式)
+        - [2. 默认模式 (提取原型)](#2-默认模式-提取原型)
+        - [3. 默认模式 (直接输入)](#3-默认模式-直接输入)
       - [获取云词本列表](#获取云词本列表)
       - [获取云词本详情](#获取云词本详情)
       - [创建云词本](#创建云词本)
@@ -91,6 +95,8 @@ async function getWordDetails() {
 getWordDetails();
 ```
 
+更多用法和示例代码，请参考项目根目录下的 `examples` 文件夹。
+
 ## API参考
 
 ### 初始化客户端
@@ -158,7 +164,9 @@ const interpretations = await client.interpretations.list(vocId);
 
 ```typescript
 // 获取单词的释义列表
-const interpretations = await client.interpretations.list('5a7BFf4F63612e5AD9fdebB7a50D3881');
+const interpretations = await client.interpretations.list(
+  '5a7BFf4F63612e5AD9fdebB7a50D3881'
+);
 ```
 
 #### 创建释义
@@ -220,11 +228,14 @@ const updatedInterpretation = await client.interpretations.update('释义ID', {
 
 ```typescript
 // 更新释义
-const updatedInterpretation = await client.interpretations.update('8f7e6d5c4b3a2190', {
-  interpretation: 'n. 苹果',
-  tags: ['考研', '四级'],
-  status: InterpretationStatus.PUBLISHED,
-});
+const updatedInterpretation = await client.interpretations.update(
+  '8f7e6d5c4b3a2190',
+  {
+    interpretation: 'n. 苹果',
+    tags: ['考研', '四级'],
+    status: InterpretationStatus.PUBLISHED,
+  }
+);
 ```
 
 #### 删除释义
@@ -752,7 +763,12 @@ try {
   } else if (error instanceof ValidationError) {
     console.error('参数错误：', error.message);
   } else if (error instanceof APIError) {
-    console.error('API服务器错误：', error.message, '状态码：', error.statusCode);
+    console.error(
+      'API服务器错误：',
+      error.message,
+      '状态码：',
+      error.statusCode
+    );
   } else if (error instanceof NetworkError) {
     console.error('网络错误：', error.message);
   } else if (error instanceof TimeoutError) {
