@@ -89,13 +89,13 @@ export class PhraseService extends BaseService {
   /**
    * 删除例句
    * @param id 例句ID
-   * @returns 删除的例句
+   * @returns 删除结果
    */
-  async delete(id: string): Promise<Phrase> {
+  async delete(id: string): Promise<boolean> {
     try {
       const response = await this.client.delete(`${this.basePath}/${id}`);
-      const typedData = response.data as ApiResponseData<{ phrase: Phrase }>;
-      return typedData.data.phrase;
+      const typedData = response.data as ApiResponseData<undefined>;
+      return typedData.success; // 在墨墨官方文档中，返回值中包含被删除的例句完整信息，但实际上接口返回值只包含了 errors 和 success 字段
     } catch (error) {
       return this.handleError(error);
     }
