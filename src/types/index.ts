@@ -2,8 +2,7 @@
  * 通用配置类型
  */
 export interface MaimemoOptions {
-  baseUrl?: string;
-  headers?: Record<string, string>;
+  env?: 'production' | 'development';
 }
 
 /**
