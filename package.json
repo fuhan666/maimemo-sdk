@@ -1,6 +1,6 @@
 {
-  "name": "maimemo-sdk",
-  "version": "3.4.1.0",
+  "name": "maimemo",
+  "version": "3.1.0.0",
   "description": "墨墨背单词API的Node.js SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

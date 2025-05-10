@@ -1,0 +1,1427 @@
+openapi: 3.1.0
+info:
+  title: 墨墨开放 API
+  version: v1
+  description: >+
+    # 说明
+
+    请先到墨墨背单词 app 上申请访问开放 API 的 token。然后在请求的 headers 中添加 `Authorization: Bearer
+    xxx`, curl 示例如下：
+
+
+    ```bash
+
+    curl --request GET \
+      --url https://open.maimemo.com/open/api/v1/phrases \
+      --header 'Accept: application/json' \
+      --header 'Authorization: Bearer xxx'
+    ```
+
+
+    ## 错误码
+
+    ### 释义
+
+    | 状态码 | 错误码 | 说明 |
+
+    | ----- | ----- | --- |
+
+
+
+    ### 助记
+
+    | 状态码 | 错误码 | 说明 |
+
+    | ----- | ----- | --- |
+
+
+
+    ### 云词本
+
+    | 状态码 | 错误码 | 说明 |
+
+    | ----- | ----- | --- |
+
+
+
+    ### 例句
+
+    | 状态码 | 错误码 | 说明 |
+
+    | ----- | ----- | --- |
+
+
+
+    ### 令牌
+
+    | 状态码 | 错误码 | 说明 |
+
+    | ----- | ----- | --- |
+
+
+
+    ### 单词
+
+    | 状态码 | 错误码 | 说明 |
+
+    | ----- | ----- | --- |
+
+
+paths:
+  /api/v1/interpretations:
+    servers: &ref_0
+      - url: https://open.maimemo.com/open
+        description: 生产服务
+      - url: https://open-dev.maimemo.com/open
+        description: 测试服务
+    get:
+      tags:
+        - 释义
+      operationId: >-
+        maimemo.openapi.interpretation.v1.InterpretationService.ListInterpretations
+      summary: 获取释义
+      requestBody: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  interpretations:
+                    description: 释义列表<br><br>引用自：[Interpretation](/schemas/Interpretation)
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Interpretation'
+                required:
+                  - interpretations
+      parameters:
+        - name: voc_id
+          in: query
+          deprecated: false
+          required: true
+          description: 单词 id
+          schema:
+            description: 单词 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+      description: 获取单词下自己创建的释义
+    post:
+      tags:
+        - 释义
+      operationId: >-
+        maimemo.openapi.interpretation.v1.InterpretationService.CreateInterpretation
+      summary: 创建释义
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                interpretation:
+                  description: ''
+                  type: object
+                  properties:
+                    voc_id:
+                      description: 单词 id
+                      type: string
+                      example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+                    interpretation:
+                      description: 释义
+                      type: string
+                      example: n. 苹果
+                    tags:
+                      description: 标签
+                      type: array
+                      example:
+                        - 考研
+                      items:
+                        type: string
+                    status:
+                      description: >-
+                        状态
+
+                        @Example
+                        PUBLISHED<br><br>引用自：[InterpretationStatus](/schemas/InterpretationStatus)
+                      type: object
+                      $ref: '#/components/schemas/InterpretationStatus'
+                  required:
+                    - voc_id
+                    - interpretation
+                    - tags
+                    - status
+              required:
+                - interpretation
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  interpretation:
+                    description: 释义<br><br>引用自：[Interpretation](/schemas/Interpretation)
+                    type: object
+                    $ref: '#/components/schemas/Interpretation'
+                required:
+                  - interpretation
+      parameters: []
+      security:
+        - user:
+            - ''
+  /api/v1/interpretations/{id}:
+    servers: *ref_0
+    post:
+      tags:
+        - 释义
+      operationId: >-
+        maimemo.openapi.interpretation.v1.InterpretationService.UpdateInterpretation
+      summary: 更新释义
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                interpretation:
+                  description: ''
+                  type: object
+                  properties:
+                    interpretation:
+                      description: 释义
+                      type: string
+                      example: n. 苹果
+                    tags:
+                      description: 标签
+                      type: array
+                      example:
+                        - 考研
+                      items:
+                        type: string
+                    status:
+                      description: >-
+                        状态
+
+                        @Example
+                        PUBLISHED<br><br>引用自：[InterpretationStatus](/schemas/InterpretationStatus)
+                      type: object
+                      $ref: '#/components/schemas/InterpretationStatus'
+                  required:
+                    - interpretation
+                    - tags
+                    - status
+              required:
+                - interpretation
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  interpretation:
+                    description: 释义<br><br>引用自：[Interpretation](/schemas/Interpretation)
+                    type: object
+                    $ref: '#/components/schemas/Interpretation'
+                required:
+                  - interpretation
+      parameters:
+        - name: id
+          in: path
+          deprecated: false
+          required: true
+          description: 释义 id
+          schema:
+            description: 释义 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+    delete:
+      tags:
+        - 释义
+      operationId: >-
+        maimemo.openapi.interpretation.v1.InterpretationService.DeleteInterpretation
+      summary: 删除释义
+      requestBody: {}
+      responses: {}
+      parameters:
+        - name: id
+          in: path
+          deprecated: false
+          required: true
+          description: 释义 id
+          schema:
+            description: 释义 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+  /api/v1/notes:
+    servers: &ref_1
+      - url: https://open.maimemo.com/open
+        description: 生产服务
+      - url: https://open-dev.maimemo.com/open
+        description: 测试服务
+    get:
+      tags:
+        - 助记
+      operationId: maimemo.openapi.note.v1.NoteService.ListNotes
+      summary: 获取助记
+      requestBody: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  notes:
+                    description: 助记列表<br><br>引用自：[Note](/schemas/Note)
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Note'
+                required:
+                  - notes
+      parameters:
+        - name: voc_id
+          in: query
+          deprecated: false
+          required: true
+          description: 单词 id
+          schema:
+            description: 单词 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+      description: 获取单词下自己创建的助记
+    post:
+      tags:
+        - 助记
+      operationId: maimemo.openapi.note.v1.NoteService.CreateNote
+      summary: 创建助记
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                note:
+                  description: ''
+                  type: object
+                  properties:
+                    voc_id:
+                      description: 单词 id
+                      type: string
+                      example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+                    note_type:
+                      description: 类型
+                      type: string
+                      example: 谐音.
+                    note:
+                      description: 助记
+                      type: string
+                      example: apple
+                  required:
+                    - voc_id
+                    - note_type
+                    - note
+              required:
+                - note
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  note:
+                    description: 助记<br><br>引用自：[Note](/schemas/Note)
+                    type: object
+                    $ref: '#/components/schemas/Note'
+                required:
+                  - note
+      parameters: []
+      security:
+        - user:
+            - ''
+  /api/v1/notes/{id}:
+    servers: *ref_1
+    post:
+      tags:
+        - 助记
+      operationId: maimemo.openapi.note.v1.NoteService.UpdateNote
+      summary: 更新助记
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                note:
+                  description: ''
+                  type: object
+                  properties:
+                    note_type:
+                      description: 类型
+                      type: string
+                      example: 谐音.
+                    note:
+                      description: 助记
+                      type: string
+                      example: apple
+                  required:
+                    - note_type
+                    - note
+              required:
+                - note
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  note:
+                    description: 助记<br><br>引用自：[Note](/schemas/Note)
+                    type: object
+                    $ref: '#/components/schemas/Note'
+                required:
+                  - note
+      parameters:
+        - name: id
+          in: path
+          deprecated: false
+          required: true
+          description: 助记 id
+          schema:
+            description: 助记 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+    delete:
+      tags:
+        - 助记
+      operationId: maimemo.openapi.note.v1.NoteService.DeleteNote
+      summary: 删除助记
+      requestBody: {}
+      responses: {}
+      parameters:
+        - name: id
+          in: path
+          deprecated: false
+          required: true
+          description: 助记 id
+          schema:
+            description: 助记 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+  /api/v1/notepads:
+    servers: &ref_2
+      - url: https://open.maimemo.com/open
+        description: 生产服务
+      - url: https://open-dev.maimemo.com/open
+        description: 测试服务
+    get:
+      tags:
+        - 云词本
+      operationId: maimemo.openapi.notepad.v1.NotepadService.ListNotepads
+      summary: 查询云词本
+      requestBody: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  notepads:
+                    description: 云词本列表<br><br>引用自：[BriefNotepad](/schemas/BriefNotepad)
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BriefNotepad'
+                required:
+                  - notepads
+      parameters:
+        - name: limit
+          in: query
+          deprecated: false
+          required: true
+          description: 查询数量
+          schema:
+            description: 查询数量
+            type: integer
+            example: 10
+        - name: offset
+          in: query
+          deprecated: false
+          required: true
+          description: 查询跳过
+          schema:
+            description: 查询跳过
+            type: integer
+            example: 0
+        - name: ids
+          in: query
+          deprecated: false
+          required: false
+          description: 词本 id 列表
+          schema:
+            description: 词本 id 列表
+            type: array
+            example:
+              - 5a7BFf4F63612e5AD9fdebB7a50D3881
+            items:
+              type: string
+      security:
+        - user:
+            - ''
+    post:
+      tags:
+        - 云词本
+      operationId: maimemo.openapi.notepad.v1.NotepadService.CreateNotepad
+      summary: 创建云词本
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                notepad:
+                  description: 创建数据
+                  type: object
+                  properties:
+                    status:
+                      description: >-
+                        状态
+
+                        @Example
+                        PUBLISHED<br><br>引用自：[NotepadStatus](/schemas/NotepadStatus)
+                      type: object
+                      $ref: '#/components/schemas/NotepadStatus'
+                    content:
+                      description: 内容
+                      type: string
+                      example: apple
+                    title:
+                      description: 标题
+                      type: string
+                      example: 常用词汇
+                    brief:
+                      description: 简介
+                      type: string
+                      example: 常用
+                    tags:
+                      description: 标签
+                      type: array
+                      example:
+                        - 考研
+                      items:
+                        type: string
+                  required:
+                    - status
+                    - content
+                    - title
+                    - brief
+                    - tags
+              required:
+                - notepad
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  notepad:
+                    description: 云词本<br><br>引用自：[Notepad](/schemas/Notepad)
+                    type: object
+                    $ref: '#/components/schemas/Notepad'
+                required:
+                  - notepad
+      parameters: []
+      security:
+        - user:
+            - ''
+  /api/v1/notepads/{id}:
+    servers: *ref_2
+    get:
+      tags:
+        - 云词本
+      operationId: maimemo.openapi.notepad.v1.NotepadService.GetNotepad
+      summary: 获取云词本
+      requestBody: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  notepad:
+                    description: 云词本<br><br>引用自：[Notepad](/schemas/Notepad)
+                    type: object
+                    $ref: '#/components/schemas/Notepad'
+                required:
+                  - notepad
+      parameters:
+        - name: id
+          in: path
+          deprecated: false
+          required: true
+          description: 云词本 id
+          schema:
+            description: 云词本 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+    post:
+      tags:
+        - 云词本
+      operationId: maimemo.openapi.notepad.v1.NotepadService.UpdateNotepad
+      summary: 更新云词本
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                notepad:
+                  description: 更新数据
+                  type: object
+                  properties:
+                    status:
+                      description: >-
+                        状态
+
+                        @Example
+                        PUBLISHED<br><br>引用自：[NotepadStatus](/schemas/NotepadStatus)
+                      type: object
+                      $ref: '#/components/schemas/NotepadStatus'
+                    content:
+                      description: 内容
+                      type: string
+                      example: apple
+                    title:
+                      description: 标题
+                      type: string
+                      example: 常用词汇
+                    brief:
+                      description: 简介
+                      type: string
+                      example: 常用
+                    tags:
+                      description: 标签
+                      type: array
+                      example:
+                        - 考研
+                      items:
+                        type: string
+                  required:
+                    - status
+                    - content
+                    - title
+                    - brief
+                    - tags
+              required:
+                - notepad
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  notepad:
+                    description: 云词本<br><br>引用自：[Notepad](/schemas/Notepad)
+                    type: object
+                    $ref: '#/components/schemas/Notepad'
+                required:
+                  - notepad
+      parameters:
+        - name: id
+          in: path
+          deprecated: false
+          required: true
+          description: 云词本 id
+          schema:
+            description: 云词本 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+    delete:
+      tags:
+        - 云词本
+      operationId: maimemo.openapi.notepad.v1.NotepadService.DeleteNotepad
+      summary: 删除云词本
+      requestBody: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  notepad:
+                    description: 云词本<br><br>引用自：[Notepad](/schemas/Notepad)
+                    type: object
+                    $ref: '#/components/schemas/Notepad'
+                required:
+                  - notepad
+      parameters:
+        - name: id
+          in: path
+          deprecated: false
+          required: true
+          description: 云词本 id
+          schema:
+            description: 云词本 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+  /api/v1/phrases:
+    servers: &ref_3
+      - url: https://open.maimemo.com/open
+        description: 生产服务
+      - url: https://open-dev.maimemo.com/open
+        description: 测试服务
+    get:
+      tags:
+        - 例句
+      operationId: maimemo.openapi.phrase.v1.PhraseService.ListPhrases
+      summary: 获取例句
+      requestBody: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  phrases:
+                    description: 例句列表<br><br>引用自：[Phrase](/schemas/Phrase)
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Phrase'
+                required:
+                  - phrases
+      parameters:
+        - name: voc_id
+          in: query
+          deprecated: false
+          required: true
+          description: 单词 id
+          schema:
+            description: 单词 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+      description: 获取单词下自己创建的例句
+    post:
+      tags:
+        - 例句
+      operationId: maimemo.openapi.phrase.v1.PhraseService.CreatePhrase
+      summary: 创建例句
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                phrase:
+                  description: ''
+                  type: object
+                  properties:
+                    voc_id:
+                      description: 单词 id
+                      type: string
+                      example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+                    phrase:
+                      description: 例句
+                      type: string
+                      example: This is an apple.
+                    interpretation:
+                      description: 翻译
+                      type: string
+                      example: 这是一个苹果。
+                    tags:
+                      description: 标签
+                      type: array
+                      example:
+                        - 考研
+                      items:
+                        type: string
+                    origin:
+                      description: 来源
+                      type: string
+                      example: 考研
+                  required:
+                    - voc_id
+                    - phrase
+                    - interpretation
+                    - tags
+                    - origin
+              required:
+                - phrase
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  phrase:
+                    description: 例句<br><br>引用自：[Phrase](/schemas/Phrase)
+                    type: object
+                    $ref: '#/components/schemas/Phrase'
+                required:
+                  - phrase
+      parameters: []
+      security:
+        - user:
+            - ''
+  /api/v1/phrases/{id}:
+    servers: *ref_3
+    post:
+      tags:
+        - 例句
+      operationId: maimemo.openapi.phrase.v1.PhraseService.UpdatePhrase
+      summary: 更新例句
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                phrase:
+                  description: ''
+                  type: object
+                  properties:
+                    phrase:
+                      description: 例句
+                      type: string
+                      example: This is an apple.
+                    interpretation:
+                      description: 翻译
+                      type: string
+                      example: 这是一个苹果。
+                    tags:
+                      description: 标签
+                      type: array
+                      example:
+                        - 考研
+                      items:
+                        type: string
+                    origin:
+                      description: 来源
+                      type: string
+                      example: 考研
+                  required:
+                    - phrase
+                    - interpretation
+                    - tags
+                    - origin
+              required:
+                - phrase
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  phrase:
+                    description: 例句<br><br>引用自：[Phrase](/schemas/Phrase)
+                    type: object
+                    $ref: '#/components/schemas/Phrase'
+                required:
+                  - phrase
+      parameters:
+        - name: id
+          in: path
+          deprecated: false
+          required: true
+          description: 例句 id
+          schema:
+            description: 例句 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+    delete:
+      tags:
+        - 例句
+      operationId: maimemo.openapi.phrase.v1.PhraseService.DeletePhrase
+      summary: 删除例句
+      requestBody: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  phrase:
+                    description: 例句<br><br>引用自：[Phrase](/schemas/Phrase)
+                    type: object
+                    $ref: '#/components/schemas/Phrase'
+                required:
+                  - phrase
+      parameters:
+        - name: id
+          in: path
+          deprecated: false
+          required: true
+          description: 例句 id
+          schema:
+            description: 例句 id
+            type: string
+            example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+      security:
+        - user:
+            - ''
+  /api/v1/vocabulary:
+    servers:
+      - url: https://open.maimemo.com/open
+        description: 生产服务
+      - url: https://open-dev.maimemo.com/open
+        description: 测试服务
+    get:
+      tags:
+        - 单词
+      operationId: maimemo.openapi.vocabulary.v1.VocabularyService.QueryVocabulary
+      summary: 查询单词
+      requestBody: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  voc:
+                    description: 单词<br><br>引用自：[Vocabulary](/schemas/Vocabulary)
+                    type: object
+                    $ref: '#/components/schemas/Vocabulary'
+                required:
+                  - voc
+      parameters:
+        - name: spelling
+          in: query
+          deprecated: false
+          required: true
+          description: 单词拼写
+          schema:
+            description: 单词拼写
+            type: string
+            example: apple
+      security:
+        - user:
+            - ''
+components:
+  schemas:
+    InterpretationStatus:
+      type: string
+      description: |-
+        释义状态
+
+        - `PUBLISHED`: 发布
+        - `UNPUBLISHED`: 未发布
+        - `DELETED`: 删除
+      enum:
+        - PUBLISHED
+        - UNPUBLISHED
+        - DELETED
+    Interpretation:
+      type: object
+      description: 释义
+      properties:
+        id:
+          description: id
+          type: string
+          example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+        interpretation:
+          description: 释义
+          type: string
+          example: n. 苹果
+        tags:
+          description: 标签
+          type: array
+          example:
+            - 考研
+          items:
+            type: string
+        status:
+          description: >-
+            状态
+
+            @Example
+            PUBLISHED<br><br>引用自：[InterpretationStatus](/schemas/InterpretationStatus)
+          type: object
+          $ref: '#/components/schemas/InterpretationStatus'
+        created_time:
+          description: |-
+            创建时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+        updated_time:
+          description: |-
+            更新时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+      required:
+        - id
+        - interpretation
+        - tags
+        - status
+        - created_time
+        - updated_time
+    NoteStatus:
+      type: string
+      description: |-
+        助记状态
+
+        - `PUBLISHED`: 发布
+        - `DELETED`: 删除
+      enum:
+        - PUBLISHED
+        - DELETED
+    Note:
+      type: object
+      description: 助记
+      properties:
+        id:
+          description: id
+          type: string
+          example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+        note_type:
+          description: 类型
+          type: string
+          example: 谐音.
+        note:
+          description: 助记
+          type: string
+          example: apple
+        status:
+          description: |-
+            状态
+            @Example PUBLISHED<br><br>引用自：[NoteStatus](/schemas/NoteStatus)
+          type: object
+          $ref: '#/components/schemas/NoteStatus'
+        created_time:
+          description: |-
+            创建时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+        updated_time:
+          description: |-
+            更新时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+      required:
+        - id
+        - note_type
+        - note
+        - status
+        - created_time
+        - updated_time
+    NotepadStatus:
+      type: string
+      description: |-
+        云词本状态
+
+        - `PUBLISHED`: 发布
+        - `UNPUBLISHED`: 未发布
+        - `DELETED`: 删除
+      enum:
+        - PUBLISHED
+        - UNPUBLISHED
+        - DELETED
+    NotepadType:
+      type: string
+      description: |-
+        云词本类型
+
+        - `FAVORITE`: 我的收藏
+        - `NOTEPAD`: 云词本
+      enum:
+        - FAVORITE
+        - NOTEPAD
+    NotepadParsedItem:
+      type: object
+      description: 云词本解析结果
+      properties:
+        type:
+          description: 类型
+          type: string
+          enum:
+            - CHAPTER
+            - WORD
+          example: CHAPTER
+        data:
+          description: 数据
+          type: object
+          properties:
+            chapter:
+              description: 章节
+              type: string
+              example: 我的章节
+            word:
+              description: |-
+                单词
+                当 type=WORD 时，该字段才有值
+              type: string
+              example: apple
+          required:
+            - chapter
+      required:
+        - type
+        - data
+    Notepad:
+      type: object
+      description: 云词本
+      properties:
+        id:
+          description: id
+          type: string
+          example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+        type:
+          description: |-
+            类型
+            @Example NOTEPAD<br><br>引用自：[NotepadType](/schemas/NotepadType)
+          type: object
+          $ref: '#/components/schemas/NotepadType'
+        creator:
+          description: 创建者 id
+          type: integer
+          example: 192
+        status:
+          description: >-
+            状态
+
+            @Example
+            PUBLISHED<br><br>引用自：[NotepadStatus](/schemas/NotepadStatus)
+          type: object
+          $ref: '#/components/schemas/NotepadStatus'
+        content:
+          description: 内容
+          type: string
+          example: apple
+        title:
+          description: 标题
+          type: string
+          example: 常用词汇
+        brief:
+          description: 简介
+          type: string
+          example: 常用
+        tags:
+          description: 标签
+          type: array
+          example:
+            - 考研
+          items:
+            type: string
+        list:
+          description: 解析结果<br><br>引用自：[NotepadParsedItem](/schemas/NotepadParsedItem)
+          type: array
+          items:
+            $ref: '#/components/schemas/NotepadParsedItem'
+        created_time:
+          description: |-
+            创建时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+        updated_time:
+          description: |-
+            更新时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+      required:
+        - id
+        - type
+        - creator
+        - status
+        - content
+        - title
+        - brief
+        - tags
+        - list
+        - created_time
+        - updated_time
+    BriefNotepad:
+      type: object
+      description: 简要云词本
+      properties:
+        id:
+          description: id
+          type: string
+          example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+        type:
+          description: |-
+            类型
+            @Example NOTEPAD<br><br>引用自：[NotepadType](/schemas/NotepadType)
+          type: object
+          $ref: '#/components/schemas/NotepadType'
+        creator:
+          description: 创建者 id
+          type: integer
+          example: 192
+        status:
+          description: >-
+            状态
+
+            @Example
+            PUBLISHED<br><br>引用自：[NotepadStatus](/schemas/NotepadStatus)
+          type: object
+          $ref: '#/components/schemas/NotepadStatus'
+        title:
+          description: 标题
+          type: string
+          example: 常用词汇
+        brief:
+          description: 简介
+          type: string
+          example: 常用
+        tags:
+          description: 标签
+          type: array
+          example:
+            - 考研
+          items:
+            type: string
+        created_time:
+          description: |-
+            创建时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+        updated_time:
+          description: |-
+            更新时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+      required:
+        - id
+        - type
+        - creator
+        - status
+        - title
+        - brief
+        - tags
+        - created_time
+        - updated_time
+    PhraseStatus:
+      type: string
+      description: |-
+        例句状态
+
+        - `PUBLISHED`: 发布
+        - `DELETED`: 删除
+      enum:
+        - PUBLISHED
+        - DELETED
+    PhraseHighlightRange:
+      type: object
+      description: |-
+        例句中的单词高亮区间
+        [start, end)
+      properties:
+        start:
+          description: 高亮起始位置
+          type: integer
+          example: 1
+        end:
+          description: 高亮结束位置（不包含）
+          type: integer
+          example: 10
+      required:
+        - start
+        - end
+    Phrase:
+      type: object
+      description: 例句
+      properties:
+        id:
+          description: id
+          type: string
+          example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+        phrase:
+          description: 例句
+          type: string
+          example: This is an apple.
+        interpretation:
+          description: 翻译
+          type: string
+          example: 这是一个苹果。
+        tags:
+          description: 标签
+          type: array
+          example:
+            - 考研
+          items:
+            type: string
+        highlight:
+          description: >-
+            例句中的单词高亮区间
+
+            实际返回的数据是二维数组<br><br>引用自：[PhraseHighlightRange](/schemas/PhraseHighlightRange)
+          type: array
+          items:
+            $ref: '#/components/schemas/PhraseHighlightRange'
+        status:
+          description: |-
+            状态
+            @Example PUBLISHED<br><br>引用自：[PhraseStatus](/schemas/PhraseStatus)
+          type: object
+          $ref: '#/components/schemas/PhraseStatus'
+        created_time:
+          description: |-
+            创建时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+        updated_time:
+          description: |-
+            更新时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+        origin:
+          description: 来源
+          type: string
+          example: 考研
+      required:
+        - id
+        - phrase
+        - interpretation
+        - tags
+        - highlight
+        - status
+        - created_time
+        - updated_time
+        - origin
+    TokenStatus:
+      type: string
+      description: |-
+        令牌状态
+
+        - `NORMAL`: 正常
+        - `DELETED`: 删除
+      enum:
+        - NORMAL
+        - DELETED
+    Token:
+      type: object
+      description: 令牌
+      properties:
+        token:
+          description: 令牌
+          type: string
+          example: cCB3Deec78Ac6eFcE5E70d6fd85D9d71DD8ebFcCe9283Dc3Fcb0D9dfB26b033B
+        status:
+          description: |-
+            状态
+            @Example NORMAL<br><br>引用自：[TokenStatus](/schemas/TokenStatus)
+          type: object
+          $ref: '#/components/schemas/TokenStatus'
+        created_time:
+          description: |-
+            创建时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+        updated_time:
+          description: |-
+            更新时间
+            ISO 8601 格式
+          type: string
+          format: ISODate
+          example: 2023-03-13T16:00:00.000Z
+      required:
+        - token
+        - status
+        - created_time
+        - updated_time
+    Vocabulary:
+      type: object
+      description: 暂无文档
+      properties:
+        id:
+          description: id
+          type: string
+          example: 5a7BFf4F63612e5AD9fdebB7a50D3881
+        spelling:
+          description: 拼写
+          type: string
+          example: apple
+      required:
+        - id
+        - spelling
+  securitySchemes:
+    user:
+      description: 需要用户身份进行请求，申请到的 token 需要放到 Header 中
+      type: oauth2
