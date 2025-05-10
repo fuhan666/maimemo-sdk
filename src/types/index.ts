@@ -99,9 +99,9 @@ export enum NoteStatus {
 }
 
 /**
- * 助记标签类型
+ * 助记类型
  */
-export type NoteTag =
+export type NoteType =
   | '词根词缀'
   | '固定搭配'
   | '近反义词'
@@ -118,13 +118,12 @@ export type NoteTag =
   | '其他';
 
 /**
- * 助记类型
+ * 助记
  */
 export interface Note {
   id: string;
-  note_type: string;
+  note_type: NoteType;
   note: string;
-  tags: NoteTag[];
   status: NoteStatus;
   created_time: string;
   updated_time: string;
@@ -135,18 +134,16 @@ export interface Note {
  */
 export interface CreateNoteParams {
   vocId: string;
-  noteType: string;
+  noteType: NoteType;
   note: string;
-  tags: NoteTag[];
 }
 
 /**
  * 更新助记参数
  */
 export interface UpdateNoteParams {
-  noteType: string;
+  noteType: NoteType;
   note: string;
-  tags: NoteTag[];
 }
 
 /**
