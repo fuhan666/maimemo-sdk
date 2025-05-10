@@ -22,7 +22,6 @@ maimemo-sdk/
 │   ├── index.ts                # 主入口文件
 │   ├── errors.ts               # 错误处理
 │   ├── client.ts               # 主客户端类
-│   ├── config.ts               # 配置文件
 │   ├── resources/              # API 服务类
 │   │   ├── index.ts            # 主入口文件
 │   │   ├── base.ts             # 基础服务类

@@ -103,8 +103,9 @@ const client = new Maimemo(token, options);
 
 - `token: string` - API认证令牌
 - `options?: MaimemoOptions` - 可选的SDK配置
-  - `baseUrl?: string` - API基础URL，默认为'https://open.maimemo.com/open'
-  - `headers?: Record<string, string>` - 自定义HTTP头
+  - `env?: 'production' | 'development'` - API环境，可选值：'production' (默认) 或 'development'。
+    - `'production'` 指向 `https://open.maimemo.com/open`
+    - `'development'` 指向 `https://open-dev.maimemo.com/open`
 
 **示例:**
 

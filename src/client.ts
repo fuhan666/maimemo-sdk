@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
-import { DEFAULT_OPTIONS } from './config';
 import { MaimemoOptions } from './types';
 import { ValidationError } from './errors';
 
@@ -15,7 +14,6 @@ import { PhraseService } from './resources/phrases';
  */
 export class Maimemo {
   private client: AxiosInstance;
-  private options: MaimemoOptions;
 
   // 资源服务
   public vocabulary: VocabularyService;
@@ -34,13 +32,20 @@ export class Maimemo {
       throw new ValidationError('Token is required');
     }
 
-    this.options = { ...DEFAULT_OPTIONS, ...options };
+    // 根据 env 设置 baseUrl
+    let baseUrl: string;
+    if (options.env === 'development') {
+      baseUrl = 'https://open-dev.maimemo.com/open';
+    } else {
+      // 默认为生产环境
+      baseUrl = 'https://open.maimemo.com/open';
+    }
 
     // 创建axios实例
     this.client = axios.create({
-      baseURL: this.options.baseUrl,
+      baseURL: baseUrl,
       headers: {
-        ...this.options.headers,
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });
