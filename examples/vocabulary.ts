@@ -39,7 +39,7 @@ async function createInterpretation(vocId: string) {
 }
 
 // 更新释义示例
-async function updateInterpretation(vocId: string, interpretationId: string) {
+async function updateInterpretation(interpretationId: string) {
   try {
     const updatedInterpretation = await client.interpretations.update(
       interpretationId,
@@ -80,33 +80,9 @@ async function deleteInterpretation(interpretationId: string) {
   }
 }
 
-// 验证认证状态
-async function checkAuthentication() {
-  try {
-    const isAuthenticated = await client.checkAuth();
-    if (isAuthenticated) {
-      console.log('认证有效');
-      return true;
-    } else {
-      console.log('认证无效');
-      return false;
-    }
-  } catch (error) {
-    console.error('检查认证状态失败:', error);
-    return false;
-  }
-}
-
 // 主函数
 async function main() {
   try {
-    console.log('验证认证状态...');
-    const isAuthenticated = await checkAuthentication();
-    if (!isAuthenticated) {
-      console.error('认证失败，请检查token');
-      return;
-    }
-
     console.log('开始查询单词...');
     const vocabulary = await queryVocabulary();
 
@@ -114,7 +90,7 @@ async function main() {
     const newInterpretation = await createInterpretation(vocabulary.id);
 
     console.log('更新单词释义...');
-    await updateInterpretation(vocabulary.id, newInterpretation.id);
+    await updateInterpretation(newInterpretation.id);
 
     console.log('获取单词释义...');
     const interpretations = await getInterpretations(vocabulary.id);
