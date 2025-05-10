@@ -11,7 +11,12 @@ export interface MaimemoOptions {
  */
 export interface ApiResponseData<T = any> {
   data: T;
-  errors: any[];
+  errors: Array<{
+    code?: string;
+    msg?: string;
+    info?: string;
+    [key: string]: unknown;
+  }>;
   success: boolean;
 }
 
