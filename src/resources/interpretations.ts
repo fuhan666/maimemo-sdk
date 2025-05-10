@@ -103,12 +103,15 @@ export class InterpretationService extends BaseService {
   /**
    * 删除释义
    * @param id 释义ID
+   * @returns 删除结果
    */
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<boolean> {
     try {
-      await this.client.delete(`${this.basePath}/${id}`);
+      const response = await this.client.delete(`${this.basePath}/${id}`);
+      const typedData = response.data as ApiResponseData<undefined>;
+      return typedData.success; // 在墨墨官方文档中，该接口未标明返回值，实际测试中，该接口返回 errors 和 success 字段
     } catch (error) {
-      this.handleError(error);
+      return this.handleError(error);
     }
   }
 }
