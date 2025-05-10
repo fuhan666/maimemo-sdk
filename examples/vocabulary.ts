@@ -39,7 +39,7 @@ async function createInterpretation(vocId: string) {
 }
 
 // 更新释义示例
-async function updateInterpretation(vocId: string, interpretationId: string) {
+async function updateInterpretation(interpretationId: string) {
   try {
     const updatedInterpretation = await client.interpretations.update(
       interpretationId,
@@ -90,7 +90,7 @@ async function main() {
     const newInterpretation = await createInterpretation(vocabulary.id);
 
     console.log('更新单词释义...');
-    await updateInterpretation(vocabulary.id, newInterpretation.id);
+    await updateInterpretation(newInterpretation.id);
 
     console.log('获取单词释义...');
     const interpretations = await getInterpretations(vocabulary.id);
