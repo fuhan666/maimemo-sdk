@@ -5,13 +5,13 @@
 ## 安装
 
 ```bash
-npm install maimemo-sdk
+npm install maimemo
 ```
 
 ## 使用方法
 
 ```typescript
-import { Maimemo } from 'maimemo-sdk';
+import { Maimemo } from 'maimemo';
 
 // 初始化客户端
 const client = new Maimemo('your-token');

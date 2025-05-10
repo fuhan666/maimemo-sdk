@@ -46,13 +46,13 @@
 使用npm安装：
 
 ```bash
-npm install maimemo-sdk
+npm install maimemo
 ```
 
 或使用yarn安装：
 
 ```bash
-yarn add maimemo-sdk
+yarn add maimemo
 ```
 
 ## 基本用法
@@ -60,7 +60,7 @@ yarn add maimemo-sdk
 以下是使用SDK的基本示例：
 
 ```typescript
-import { Maimemo } from 'maimemo-sdk';
+import { Maimemo } from 'maimemo';
 
 // 初始化客户端
 const client = new Maimemo('your-token-here');
