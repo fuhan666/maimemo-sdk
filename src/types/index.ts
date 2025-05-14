@@ -22,11 +22,14 @@ export interface ApiResponseData<T = any> {
 /**
  * 释义状态
  */
-export enum InterpretationStatus {
-  PUBLISHED = 'PUBLISHED',
-  UNPUBLISHED = 'UNPUBLISHED',
-  DELETED = 'DELETED',
-}
+export const InterpretationStatus = {
+  PUBLISHED: 'PUBLISHED',
+  UNPUBLISHED: 'UNPUBLISHED',
+  DELETED: 'DELETED',
+} as const;
+
+export type InterpretationStatus =
+  (typeof InterpretationStatus)[keyof typeof InterpretationStatus];
 
 /**
  * 释义标签类型
@@ -92,10 +95,12 @@ export interface UpdateInterpretationParams {
 /**
  * 助记状态
  */
-export enum NoteStatus {
-  PUBLISHED = 'PUBLISHED',
-  DELETED = 'DELETED',
-}
+export const NoteStatus = {
+  PUBLISHED: 'PUBLISHED',
+  DELETED: 'DELETED',
+} as const;
+
+export type NoteStatus = (typeof NoteStatus)[keyof typeof NoteStatus];
 
 /**
  * 助记类型
@@ -148,19 +153,23 @@ export interface UpdateNoteParams {
 /**
  * 云词本状态
  */
-export enum NotepadStatus {
-  PUBLISHED = 'PUBLISHED',
-  UNPUBLISHED = 'UNPUBLISHED',
-  DELETED = 'DELETED',
-}
+export const NotepadStatus = {
+  PUBLISHED: 'PUBLISHED',
+  UNPUBLISHED: 'UNPUBLISHED',
+  DELETED: 'DELETED',
+} as const;
+
+export type NotepadStatus = (typeof NotepadStatus)[keyof typeof NotepadStatus];
 
 /**
  * 云词本类型
  */
-export enum NotepadType {
-  FAVORITE = 'FAVORITE',
-  NOTEPAD = 'NOTEPAD',
-}
+export const NotepadType = {
+  FAVORITE: 'FAVORITE',
+  NOTEPAD: 'NOTEPAD',
+} as const;
+
+export type NotepadType = (typeof NotepadType)[keyof typeof NotepadType];
 
 /**
  * 云词本标签类型
@@ -255,10 +264,12 @@ export interface BriefNotepad {
 /**
  * 例句状态
  */
-export enum PhraseStatus {
-  PUBLISHED = 'PUBLISHED',
-  DELETED = 'DELETED',
-}
+export const PhraseStatus = {
+  PUBLISHED: 'PUBLISHED',
+  DELETED: 'DELETED',
+} as const;
+
+export type PhraseStatus = (typeof PhraseStatus)[keyof typeof PhraseStatus];
 
 /**
  * 例句标签类型
