@@ -33,7 +33,7 @@ export class InterpretationService extends BaseService {
         response.data as ApiResponseData<{ interpretations: Interpretation[] }>
       ).data.interpretations;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -58,7 +58,7 @@ export class InterpretationService extends BaseService {
         response.data as ApiResponseData<{ interpretation: Interpretation }>
       ).data.interpretation;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -86,7 +86,7 @@ export class InterpretationService extends BaseService {
         response.data as ApiResponseData<{ interpretation: Interpretation }>
       ).data.interpretation;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -101,7 +101,7 @@ export class InterpretationService extends BaseService {
       const typedData = response.data as ApiResponseData<undefined>;
       return typedData.success; // 在墨墨官方文档中，该接口未标明返回值，实际测试中，该接口返回 errors 和 success 字段
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 }

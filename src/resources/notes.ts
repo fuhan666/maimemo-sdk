@@ -32,7 +32,7 @@ export class NoteService extends BaseService {
       const typedData = response.data as ApiResponseData<{ notes: Note[] }>;
       return typedData.data.notes;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -55,7 +55,7 @@ export class NoteService extends BaseService {
       const typedData = response.data as ApiResponseData<{ note: Note }>;
       return typedData.data.note;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -78,7 +78,7 @@ export class NoteService extends BaseService {
       const typedData = response.data as ApiResponseData<{ note: Note }>;
       return typedData.data.note;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -93,7 +93,7 @@ export class NoteService extends BaseService {
       const typedData = response.data as ApiResponseData<undefined>;
       return typedData.success; // 在墨墨官方文档中，该接口未标明返回值，实际测试中，该接口返回 errors 和 success 字段
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 }
