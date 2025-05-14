@@ -185,7 +185,7 @@ const interpretation = await client.interpretations.create({
 - `vocId: string` - 单词ID
 - `interpretation: string` - 释义内容
 - `tags: InterpretationTag[]` - 标签，必须从以下值中选择：'考研'、'简明'、'详细'、'英英'、'小学'、'初中'、'高中'、'四级'、'六级'、'专升本'、'专四'、'专八'、'考博'、'雅思'、'托福'、'托业'、'新概念'、'GRE'、'GMAT'、'BEC'、'MBA'、'SAT'、'ACT'、'法学'、'医学'
-- `status?: InterpretationStatus` - 状态，可选，默认PUBLISHED
+- `status: InterpretationStatus` - 状态，PUBLISHED, UNPUBLISHED, DELETED
 
 **返回:**
 
@@ -218,7 +218,7 @@ const updatedInterpretation = await client.interpretations.update('释义ID', {
 - `id: string` - 释义ID
 - `interpretation: string` - 释义内容
 - `tags: InterpretationTag[]` - 标签，必须从以下值中选择：'考研'、'简明'、'详细'、'英英'、'小学'、'初中'、'高中'、'四级'、'六级'、'专升本'、'专四'、'专八'、'考博'、'雅思'、'托福'、'托业'、'新概念'、'GRE'、'GMAT'、'BEC'、'MBA'、'SAT'、'ACT'、'法学'、'医学'
-- `status?: InterpretationStatus` - 状态，可选
+- `status: InterpretationStatus` - 状态，PUBLISHED, UNPUBLISHED, DELETED
 
 **返回:**
 
