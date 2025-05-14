@@ -59,7 +59,8 @@ export type InterpretationTag =
   | 'SAT'
   | 'ACT'
   | '法学'
-  | '医学';
+  | '医学'
+  | (string & {});
 
 /**
  * 释义类型
@@ -119,7 +120,8 @@ export type NoteType =
   | '口诀'
   | '扩展'
   | '合成'
-  | '其他';
+  | '其他'
+  | (string & {});
 
 /**
  * 助记
@@ -194,7 +196,8 @@ export type NotepadTag =
   | 'BEC'
   | '词典'
   | '词频'
-  | '其他';
+  | '其他'
+  | (string & {});
 
 /**
  * 云词本解析结果项目类型
@@ -298,7 +301,8 @@ export type PhraseTag =
   | 'ACT'
   | '法学'
   | '医学'
-  | '短语';
+  | '短语'
+  | (string & {});
 
 /**
  * 例句中的单词高亮区间
