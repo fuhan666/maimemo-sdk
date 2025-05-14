@@ -95,15 +95,11 @@ async function getWordDetails() {
 getWordDetails();
 ```
 
-更多用法和示例代码，请参考项目根目录下的 `examples` 文件夹。
+更多用法和示例代码，请参考 [examples](https://github.com/fuhan666/maimemo-sdk/tree/main/examples) 目录。
 
 ## API参考
 
 ### 初始化客户端
-
-```typescript
-const client = new Maimemo(token, options);
-```
 
 **参数:**
 
@@ -123,10 +119,6 @@ const client = new Maimemo('your-token');
 
 #### 查询单词
 
-```typescript
-const vocabulary = await client.vocabulary.query(spelling);
-```
-
 **参数:**
 
 - `spelling: string` - 单词拼写
@@ -141,16 +133,12 @@ const vocabulary = await client.vocabulary.query(spelling);
 // 根据拼写查询单词
 const vocabulary = await client.vocabulary.query('apple');
 console.log(vocabulary);
-// 输出: { id: '5a7BFf4F63612e5AD9fdebB7a50D3881', spelling: 'apple' }
+// 输出: { id: 'voc-IfjIcasJ9PrA5XWrvmnrgceiI1hTC45HqtwLUaZfTNhBsfYvtR5nL4tr3DLB8P-m', spelling: 'apple' }
 ```
 
 ### 释义API
 
 #### 获取释义列表
-
-```typescript
-const interpretations = await client.interpretations.list(vocId);
-```
 
 **参数:**
 
@@ -165,20 +153,11 @@ const interpretations = await client.interpretations.list(vocId);
 ```typescript
 // 获取单词的释义列表
 const interpretations = await client.interpretations.list(
-  '5a7BFf4F63612e5AD9fdebB7a50D3881'
+  'voc-IfjIcasJ9PrA5XWrvmnrgceiI1hTC45HqtwLUaZfTNhBsfYvtR5nL4tr3DLB8P-m'
 );
 ```
 
 #### 创建释义
-
-```typescript
-const interpretation = await client.interpretations.create({
-  vocId: '单词ID',
-  interpretation: '释义内容',
-  tags: ['标签1', '标签2'],
-  status: InterpretationStatus.PUBLISHED,
-});
-```
 
 **参数:**
 
@@ -196,7 +175,7 @@ const interpretation = await client.interpretations.create({
 ```typescript
 // 为单词创建释义
 const interpretation = await client.interpretations.create({
-  vocId: '5a7BFf4F63612e5AD9fdebB7a50D3881',
+  vocId: 'voc-IfjIcasJ9PrA5XWrvmnrgceiI1hTC45HqtwLUaZfTNhBsfYvtR5nL4tr3DLB8P-m',
   interpretation: 'n. 苹果',
   tags: ['考研'],
   status: InterpretationStatus.PUBLISHED,
@@ -204,14 +183,6 @@ const interpretation = await client.interpretations.create({
 ```
 
 #### 更新释义
-
-```typescript
-const updatedInterpretation = await client.interpretations.update('释义ID', {
-  interpretation: '新释义内容',
-  tags: ['新标签1', '新标签2'],
-  status: InterpretationStatus.PUBLISHED,
-});
-```
 
 **参数:**
 
@@ -240,13 +211,13 @@ const updatedInterpretation = await client.interpretations.update(
 
 #### 删除释义
 
-```typescript
-await client.interpretations.delete('释义ID');
-```
-
 **参数:**
 
 - `id: string` - 释义ID
+
+**返回:**
+
+- `Promise<boolean>` - 删除结果
 
 **示例:**
 
@@ -258,10 +229,6 @@ await client.interpretations.delete('8f7e6d5c4b3a2190');
 ### 助记API
 
 #### 获取助记列表
-
-```typescript
-const notes = await client.notes.list(vocId);
-```
 
 **参数:**
 
@@ -275,18 +242,10 @@ const notes = await client.notes.list(vocId);
 
 ```typescript
 // 获取单词的助记列表
-const notes = await client.notes.list('5a7BFf4F63612e5AD9fdebB7a50D3881');
+const notes = await client.notes.list('voc-IfjIcasJ9PrA5XWrvmnrgceiI1hTC45HqtwLUaZfTNhBsfYvtR5nL4tr3DLB8P-m');
 ```
 
 #### 创建助记
-
-```typescript
-const note = await client.notes.create({
-  vocId: '单词ID',
-  noteType: '助记类型',
-  note: '助记内容',
-});
-```
 
 **参数:**
 
@@ -303,20 +262,13 @@ const note = await client.notes.create({
 ```typescript
 // 为单词创建助记
 const note = await client.notes.create({
-  vocId: '5a7BFf4F63612e5AD9fdebB7a50D3881',
+  vocId: 'voc-IfjIcasJ9PrA5XWrvmnrgceiI1hTC45HqtwLUaZfTNhBsfYvtR5nL4tr3DLB8P-m',
   noteType: '谐音',
   note: '苹果的助记内容',
 });
 ```
 
 #### 更新助记
-
-```typescript
-const updatedNote = await client.notes.update('助记ID', {
-  noteType: '新助记类型',
-  note: '新助记内容',
-});
-```
 
 **参数:**
 
@@ -340,13 +292,13 @@ const updatedNote = await client.notes.update('note-id-123', {
 
 #### 删除助记
 
-```typescript
-await client.notes.delete('助记ID');
-```
-
 **参数:**
 
 - `id: string` - 助记ID
+
+**返回:**
+
+- `Promise<boolean>` - 删除结果
 
 **示例:**
 
@@ -474,15 +426,11 @@ await client.notes.delete('note-id-123');
 
 #### 获取云词本列表
 
-```typescript
-const notepads = await client.notepads.list(limit, offset, ids);
-```
-
 **参数:**
 
 - `limit: number` - 每页数量
 - `offset: number` - 偏移量
-- `ids?: string[]` - 可选，指定云词本ID列表
+- `ids?: string[]` - 可选，指定云词本ID列表。**官方接口似乎无法正确处理这个参数，会报错。目前不建议使用该参数来查询**
 
 **返回:**
 
@@ -500,10 +448,6 @@ const specificNotepads = await client.notepads.list(10, 0, ['id1', 'id2']);
 
 #### 获取云词本详情
 
-```typescript
-const notepad = await client.notepads.get(id);
-```
-
 **参数:**
 
 - `id: string` - 云词本ID
@@ -520,16 +464,6 @@ const notepad = await client.notepads.get('notepad-id-123');
 ```
 
 #### 创建云词本
-
-```typescript
-const notepad = await client.notepads.create({
-  title: '云词本标题',
-  content: '云词本内容',
-  brief: '云词本简介',
-  tags: ['小学', '四级'],
-  status: NotepadStatus.PUBLISHED,
-});
-```
 
 **参数:**
 
@@ -557,16 +491,6 @@ const newNotepad = await client.notepads.create({
 ```
 
 #### 更新云词本
-
-```typescript
-const updatedNotepad = await client.notepads.update('云词本ID', {
-  title: '新标题',
-  content: '新内容',
-  brief: '新简介',
-  tags: ['小学', '四级', '词频'],
-  status: NotepadStatus.PUBLISHED,
-});
-```
 
 **参数:**
 
@@ -604,6 +528,10 @@ await client.notepads.delete('云词本ID');
 
 - `id: string` - 云词本ID
 
+**返回:**
+
+- `Promise<boolean>` - 删除结果
+
 **示例:**
 
 ```typescript
@@ -614,10 +542,6 @@ await client.notepads.delete('notepad-id-123');
 ### 例句API
 
 #### 获取例句列表
-
-```typescript
-const phrases = await client.phrases.list(vocId);
-```
 
 **参数:**
 
@@ -636,16 +560,6 @@ const phrases = await client.phrases.list('5a7BFf4F63612e5AD9fdebB7a50D3881');
 
 #### 创建例句
 
-```typescript
-const phrase = await client.phrases.create({
-  vocId: '单词ID',
-  phrase: '例句内容',
-  translation: '例句翻译',
-  tags: ['标签1', '标签2'],
-  source: '例句来源',
-});
-```
-
 **参数:**
 
 - `vocId: string` - 单词ID
@@ -663,7 +577,7 @@ const phrase = await client.phrases.create({
 ```typescript
 // 为单词创建例句
 const phrase = await client.phrases.create({
-  vocId: '5a7BFf4F63612e5AD9fdebB7a50D3881',
+  vocId: 'voc-IfjIcasJ9PrA5XWrvmnrgceiI1hTC45HqtwLUaZfTNhBsfYvtR5nL4tr3DLB8P-m',
   phrase: 'This is an apple.',
   interpretation: '这是一个苹果。',
   tags: ['小学', '短语'],
@@ -672,15 +586,6 @@ const phrase = await client.phrases.create({
 ```
 
 #### 更新例句
-
-```typescript
-const updatedPhrase = await client.phrases.update('例句ID', {
-  phrase: '新例句内容',
-  interpretation: '新例句翻译',
-  tags: ['小学', '四级'],
-  origin: '新例句来源',
-});
-```
 
 **参数:**
 
@@ -708,13 +613,13 @@ const updatedPhrase = await client.phrases.update('phrase-id-123', {
 
 #### 删除例句
 
-```typescript
-await client.phrases.delete('例句ID');
-```
-
 **参数:**
 
 - `id: string` - 例句ID
+
+**返回:**
+
+- `Promise<boolean>` - 删除结果
 
 **示例:**
 

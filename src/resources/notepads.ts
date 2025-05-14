@@ -25,7 +25,7 @@ export class NotepadService extends BaseService {
    * 查询云词本列表
    * @param limit 查询数量
    * @param offset 查询起始位置
-   * @param ids 指定的云词本ID列表
+   * @param ids 指定的云词本ID列表（可选）
    * @returns 云词本列表
    */
   async list(
@@ -45,7 +45,7 @@ export class NotepadService extends BaseService {
       }>;
       return typedData.data.notepads;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -60,7 +60,7 @@ export class NotepadService extends BaseService {
       const typedData = response.data as ApiResponseData<{ notepad: Notepad }>;
       return typedData.data.notepad;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -91,7 +91,7 @@ export class NotepadService extends BaseService {
       const typedData = response.data as ApiResponseData<{ notepad: Notepad }>;
       return typedData.data.notepad;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -123,7 +123,7 @@ export class NotepadService extends BaseService {
       const typedData = response.data as ApiResponseData<{ notepad: Notepad }>;
       return typedData.data.notepad;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -138,7 +138,7 @@ export class NotepadService extends BaseService {
       const typedData = response.data as ApiResponseData<undefined>;
       return typedData.success; // 在墨墨官方文档中，返回值中包含被删除的云词本完整信息，但实际上接口返回值只包含了 errors 和 success 字段
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 }

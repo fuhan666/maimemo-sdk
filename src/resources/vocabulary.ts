@@ -27,7 +27,7 @@ export class VocabularyService extends BaseService {
       const typedData = response.data as ApiResponseData<{ voc: Vocabulary }>;
       return typedData.data.voc;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 }

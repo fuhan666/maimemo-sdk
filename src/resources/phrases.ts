@@ -32,7 +32,7 @@ export class PhraseService extends BaseService {
       const typedData = response.data as ApiResponseData<{ phrases: Phrase[] }>;
       return typedData.data.phrases;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -57,7 +57,7 @@ export class PhraseService extends BaseService {
       const typedData = response.data as ApiResponseData<{ phrase: Phrase }>;
       return typedData.data.phrase;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -82,7 +82,7 @@ export class PhraseService extends BaseService {
       const typedData = response.data as ApiResponseData<{ phrase: Phrase }>;
       return typedData.data.phrase;
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 
@@ -97,7 +97,7 @@ export class PhraseService extends BaseService {
       const typedData = response.data as ApiResponseData<undefined>;
       return typedData.success; // 在墨墨官方文档中，返回值中包含被删除的例句完整信息，但实际上接口返回值只包含了 errors 和 success 字段
     } catch (error) {
-      return this.handleError(error);
+      this.handleError(error);
     }
   }
 }
