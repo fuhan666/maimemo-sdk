@@ -13,14 +13,13 @@ import { PhraseService } from './resources/phrases';
  * 墨墨背单词API客户端
  */
 export class Maimemo {
-  private client: AxiosInstance;
+  private _client: AxiosInstance;
 
-  // 资源服务
-  public vocabulary: VocabularyService;
-  public interpretations: InterpretationService;
-  public notes: NoteService;
-  public notepads: NotepadService;
-  public phrases: PhraseService;
+  private _vocabulary?: VocabularyService;
+  private _interpretations?: InterpretationService;
+  private _notes?: NoteService;
+  private _notepads?: NotepadService;
+  private _phrases?: PhraseService;
 
   /**
    * 创建墨墨背单词API客户端
@@ -42,7 +41,7 @@ export class Maimemo {
     }
 
     // 创建axios实例
-    this.client = axios.create({
+    this._client = axios.create({
       baseURL: baseUrl,
       headers: {
         Accept: 'application/json',
@@ -52,13 +51,6 @@ export class Maimemo {
 
     // 设置请求拦截器
     this.setupInterceptors();
-
-    // 初始化资源服务
-    this.vocabulary = new VocabularyService(this.client);
-    this.interpretations = new InterpretationService(this.client);
-    this.notes = new NoteService(this.client);
-    this.notepads = new NotepadService(this.client);
-    this.phrases = new PhraseService(this.client);
   }
 
   /**
@@ -66,7 +58,7 @@ export class Maimemo {
    */
   private setupInterceptors(): void {
     // 响应拦截器 - 处理响应
-    this.client.interceptors.response.use(
+    this._client.interceptors.response.use(
       (response: AxiosResponse) => {
         // 处理成功的响应
         return response;
@@ -75,5 +67,40 @@ export class Maimemo {
         return Promise.reject(error);
       },
     );
+  }
+
+  public get vocabulary(): VocabularyService {
+    if (!this._vocabulary) {
+      this._vocabulary = new VocabularyService(this._client);
+    }
+    return this._vocabulary;
+  }
+
+  public get interpretations(): InterpretationService {
+    if (!this._interpretations) {
+      this._interpretations = new InterpretationService(this._client);
+    }
+    return this._interpretations;
+  }
+
+  public get notes(): NoteService {
+    if (!this._notes) {
+      this._notes = new NoteService(this._client);
+    }
+    return this._notes;
+  }
+
+  public get notepads(): NotepadService {
+    if (!this._notepads) {
+      this._notepads = new NotepadService(this._client);
+    }
+    return this._notepads;
+  }
+
+  public get phrases(): PhraseService {
+    if (!this._phrases) {
+      this._phrases = new PhraseService(this._client);
+    }
+    return this._phrases;
   }
 }
