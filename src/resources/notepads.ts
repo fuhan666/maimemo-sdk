@@ -25,7 +25,7 @@ export class NotepadService extends BaseService {
    * 查询云词本列表
    * @param limit 查询数量
    * @param offset 查询起始位置
-   * @param ids 指定的云词本ID列表
+   * @param ids 指定的云词本ID列表（可选）
    * @returns 云词本列表
    */
   async list(
