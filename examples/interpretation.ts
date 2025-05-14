@@ -1,4 +1,10 @@
-import { Maimemo, AuthenticationError, NotFoundError, APIError } from '../src';
+import {
+  Maimemo,
+  AuthenticationError,
+  NotFoundError,
+  APIError,
+  InterpretationStatus,
+} from '../src';
 
 // 请替换为你的墨墨API令牌
 const TOKEN = 'your-token';
@@ -29,6 +35,7 @@ async function createInterpretation(vocId: string) {
       vocId,
       interpretation: 'n. 苹果',
       tags: ['简明'],
+      status: InterpretationStatus.UNPUBLISHED,
     });
     console.log('创建的释义:', interpretation);
     return interpretation;
@@ -46,6 +53,7 @@ async function updateInterpretation(interpretationId: string) {
       {
         interpretation: 'n. 苹果; 苹果公司',
         tags: ['简明'],
+        status: InterpretationStatus.PUBLISHED,
       },
     );
     console.log('更新的释义:', updatedInterpretation);

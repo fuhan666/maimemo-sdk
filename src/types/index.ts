@@ -81,7 +81,7 @@ export interface CreateInterpretationParams {
   vocId: string;
   interpretation: string;
   tags: InterpretationTag[];
-  status?: InterpretationStatus;
+  status: InterpretationStatus;
 }
 
 /**
@@ -90,7 +90,7 @@ export interface CreateInterpretationParams {
 export interface UpdateInterpretationParams {
   interpretation: string;
   tags: InterpretationTag[];
-  status?: InterpretationStatus;
+  status: InterpretationStatus;
 }
 
 /**

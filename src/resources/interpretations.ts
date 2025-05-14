@@ -2,7 +2,6 @@ import { AxiosInstance } from 'axios';
 import { BaseService } from './base';
 import {
   Interpretation,
-  InterpretationStatus,
   CreateInterpretationParams,
   UpdateInterpretationParams,
   ApiResponseData,
@@ -45,12 +44,7 @@ export class InterpretationService extends BaseService {
    */
   async create(params: CreateInterpretationParams): Promise<Interpretation> {
     try {
-      const {
-        vocId,
-        interpretation,
-        tags,
-        status = InterpretationStatus.PUBLISHED,
-      } = params;
+      const { vocId, interpretation, tags, status } = params;
 
       const response = await this.client.post(this.basePath, {
         interpretation: {
@@ -79,11 +73,7 @@ export class InterpretationService extends BaseService {
     params: UpdateInterpretationParams,
   ): Promise<Interpretation> {
     try {
-      const {
-        interpretation,
-        tags,
-        status = InterpretationStatus.PUBLISHED,
-      } = params;
+      const { interpretation, tags, status } = params;
 
       const response = await this.client.post(`${this.basePath}/${id}`, {
         interpretation: {
