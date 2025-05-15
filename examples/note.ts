@@ -1,5 +1,11 @@
-import { Maimemo, AuthenticationError, NotFoundError, APIError } from '../src';
-import { CreateNoteParams, UpdateNoteParams } from '../src/types';
+import {
+  Maimemo,
+  AuthenticationError,
+  NotFoundError,
+  APIError,
+  CreateNoteParams,
+  UpdateNoteParams,
+} from 'maimemo';
 
 // 请替换为你的墨墨API令牌
 const TOKEN = 'your-token';
