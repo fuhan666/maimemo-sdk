@@ -21,6 +21,7 @@
   "license": "MIT",
   "author": "fuhan <hanfu.hf@gmail.com>",
   "type": "module",
+  "sideEffects": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
