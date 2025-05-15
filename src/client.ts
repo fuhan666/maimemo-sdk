@@ -40,10 +40,14 @@ export class Maimemo {
       baseUrl = 'https://open.maimemo.com/open';
     }
 
+    const { axiosConfig } = options;
+
     // 创建axios实例
     this._client = axios.create({
+      ...axiosConfig,
       baseURL: baseUrl,
       headers: {
+        ...(axiosConfig?.headers || {}),
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
