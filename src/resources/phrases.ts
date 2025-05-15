@@ -1,11 +1,11 @@
 import { AxiosInstance } from 'axios';
-import { BaseService } from './base';
+import { BaseService } from './base.js';
 import {
   Phrase,
   CreatePhraseParams,
   UpdatePhraseParams,
   ApiResponseData,
-} from '../types';
+} from '../types.js';
 
 /**
  * 例句资源服务

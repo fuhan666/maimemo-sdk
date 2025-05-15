@@ -1,13 +1,13 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
-import { MaimemoOptions } from './types';
-import { ValidationError } from './errors';
+import { MaimemoOptions } from './types.js';
+import { ValidationError } from './errors.js';
 
 // 导入资源服务
-import { VocabularyService } from './resources/vocabulary';
-import { InterpretationService } from './resources/interpretations';
-import { NoteService } from './resources/notes';
-import { NotepadService } from './resources/notepads';
-import { PhraseService } from './resources/phrases';
+import { VocabularyService } from './resources/vocabulary.js';
+import { InterpretationService } from './resources/interpretations.js';
+import { NoteService } from './resources/notes.js';
+import { NotepadService } from './resources/notepads.js';
+import { PhraseService } from './resources/phrases.js';
 
 /**
  * 墨墨背单词API客户端

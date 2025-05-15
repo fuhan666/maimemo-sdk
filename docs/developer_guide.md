@@ -22,19 +22,18 @@ maimemo-sdk/
 │   ├── index.ts                # 主入口文件
 │   ├── errors.ts               # 错误处理
 │   ├── client.ts               # 主客户端类
-│   ├── resources/              # API 服务类
-│   │   ├── index.ts            # 主入口文件
-│   │   ├── base.ts             # 基础服务类
-│   │   ├── vocabulary.ts       # 单词服务
-│   │   ├── interpretations.ts  # 释义服务
-│   │   ├── notes.ts            # 助记服务
-│   │   ├── notepads.ts         # 云词本服务
-│   │   └── phrases.ts          # 例句服务
-│   └── types/                  # 类型定义
-│       └── index.ts            # 类型定义
-├── docs/                	      # 文档
+│   ├── types.ts                # 类型定义
+│   └── resources/              # API 服务类
+│       ├── index.ts            # 主入口文件
+│       ├── base.ts             # 基础服务类
+│       ├── vocabulary.ts       # 单词服务
+│       ├── interpretations.ts  # 释义服务
+│       ├── notes.ts            # 助记服务
+│       ├── notepads.ts         # 云词本服务
+│       └── phrases.ts          # 例句服务
+├── docs/                	     # 文档
 │   ├── developer_guide.md      # 开发者指南
-│   └── user_guide.md           # 用户指南
+│   └── API.md                  # 用户指南
 ├── eslint.config.mjs           # ESLint 配置
 ├── .prettierrc                 # Prettier 配置
 ├── tsconfig.json               # TypeScript 配置

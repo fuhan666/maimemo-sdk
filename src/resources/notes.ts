@@ -1,11 +1,11 @@
 import { AxiosInstance } from 'axios';
-import { BaseService } from './base';
+import { BaseService } from './base.js';
 import {
   Note,
   CreateNoteParams,
   UpdateNoteParams,
   ApiResponseData,
-} from '../types';
+} from '../types.js';
 
 /**
  * 助记资源服务

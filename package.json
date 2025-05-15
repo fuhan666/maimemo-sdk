@@ -1,19 +1,7 @@
 {
   "name": "maimemo",
-  "version": "3.1.0.0",
-  "description": "墨墨背单词API的Node.js SDK",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "lint": "eslint 'src/**/*.ts'",
-    "format": "prettier --write 'src/**/*.ts'",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm run lint",
-    "preversion": "npm run lint",
-    "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags"
-  },
+  "version": "3.10.0",
+  "description": "墨墨背单词开放 API 的 Node.js SDK。Node.js SDK for Maimemo Open API.",
   "keywords": [
     "maimemo",
     "墨墨背单词",
@@ -22,11 +10,36 @@
     "vocabulary",
     "learning"
   ],
-  "author": "",
+  "homepage": "https://github.com/fuhan666/maimemo-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/fuhan666/maimemo-sdk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fuhan666/maimemo-sdk.git"
+  },
   "license": "MIT",
+  "author": "fuhan <hanfu.hf@gmail.com>",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*"
   ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint 'src/**/*.ts'",
+    "format": "prettier --write 'src/**/*.ts'",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
     "@types/node": "^20.4.2",
@@ -40,7 +53,10 @@
     "typescript": "^5.1.6",
     "typescript-eslint": "^8.32.0"
   },
-  "dependencies": {
-    "axios": "^1.4.0"
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

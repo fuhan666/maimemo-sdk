@@ -6,8 +6,8 @@ import {
   AuthenticationError,
   TimeoutError,
   NotFoundError,
-} from '../errors';
-import { ApiResponseData } from '../types';
+} from '../errors.js';
+import { ApiResponseData } from '../types.js';
 
 /**
  * 基础资源服务类
