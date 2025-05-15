@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { MaimemoOptions } from './types.js';
 import { ValidationError } from './errors.js';
 
@@ -48,25 +48,6 @@ export class Maimemo {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    // 设置请求拦截器
-    this.setupInterceptors();
-  }
-
-  /**
-   * 设置请求拦截器
-   */
-  private setupInterceptors(): void {
-    // 响应拦截器 - 处理响应
-    this._client.interceptors.response.use(
-      (response: AxiosResponse) => {
-        // 处理成功的响应
-        return response;
-      },
-      (error: AxiosError) => {
-        return Promise.reject(error);
-      },
-    );
   }
 
   public get vocabulary(): VocabularyService {
