@@ -1,13 +1,13 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
-import { MaimemoOptions } from './types';
-import { ValidationError } from './errors';
+import axios, { AxiosInstance } from 'axios';
+import { MaimemoOptions } from './types.js';
+import { ValidationError } from './errors.js';
 
 // 导入资源服务
-import { VocabularyService } from './resources/vocabulary';
-import { InterpretationService } from './resources/interpretations';
-import { NoteService } from './resources/notes';
-import { NotepadService } from './resources/notepads';
-import { PhraseService } from './resources/phrases';
+import { VocabularyService } from './resources/vocabulary.js';
+import { InterpretationService } from './resources/interpretations.js';
+import { NoteService } from './resources/notes.js';
+import { NotepadService } from './resources/notepads.js';
+import { PhraseService } from './resources/phrases.js';
 
 /**
  * 墨墨背单词API客户端
@@ -40,33 +40,18 @@ export class Maimemo {
       baseUrl = 'https://open.maimemo.com/open';
     }
 
+    const { axiosConfig } = options;
+
     // 创建axios实例
     this._client = axios.create({
+      ...axiosConfig,
       baseURL: baseUrl,
       headers: {
+        ...(axiosConfig?.headers || {}),
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });
-
-    // 设置请求拦截器
-    this.setupInterceptors();
-  }
-
-  /**
-   * 设置请求拦截器
-   */
-  private setupInterceptors(): void {
-    // 响应拦截器 - 处理响应
-    this._client.interceptors.response.use(
-      (response: AxiosResponse) => {
-        // 处理成功的响应
-        return response;
-      },
-      (error: AxiosError) => {
-        return Promise.reject(error);
-      },
-    );
   }
 
   public get vocabulary(): VocabularyService {

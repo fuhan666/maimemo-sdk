@@ -108,11 +108,27 @@ getWordDetails();
   - `env?: 'production' | 'development'` - API环境，可选值：'production' (默认) 或 'development'。
     - `'production'` 指向 `https://open.maimemo.com/open`
     - `'development'` 指向 `https://open-dev.maimemo.com/open`
+  - `axiosConfig?: AxiosRequestConfig` - 可选的 Axios 配置对象，用于自定义底层的 HTTP 客户端行为。例如超时时间、自定义头部、代理等
 
 **示例:**
 
 ```typescript
+// 示例：默认配置
+import { Maimemo } from 'maimemo';
 const client = new Maimemo('your-token');
+
+// 示例：自定义 Axios 配置
+import { AxiosRequestConfig } from 'axios';
+const axiosConfig: AxiosRequestConfig = {
+  timeout: 10000,
+  headers: {
+    'X-Custom-Header': 'MyValue'
+  }
+};
+const clientWithCustomConfig = new Maimemo('your-token', {
+  env: 'development',
+  axiosConfig
+});
 ```
 
 ### 单词API

@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { BaseService } from './base';
+import { BaseService } from './base.js';
 import {
   BriefNotepad,
   Notepad,
@@ -7,7 +7,7 @@ import {
   CreateNotepadParams,
   UpdateNotepadParams,
   ApiResponseData,
-} from '../types';
+} from '../types.js';
 
 /**
  * 云词本资源服务

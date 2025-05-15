@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
-import { BaseService } from './base';
-import { Vocabulary, ApiResponseData } from '../types';
+import { BaseService } from './base.js';
+import { ApiResponseData, Vocabulary } from '../types.js';
 
 /**
  * 单词资源服务

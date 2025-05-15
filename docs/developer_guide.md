@@ -22,19 +22,18 @@ maimemo-sdk/
 │   ├── index.ts                # 主入口文件
 │   ├── errors.ts               # 错误处理
 │   ├── client.ts               # 主客户端类
-│   ├── resources/              # API 服务类
-│   │   ├── index.ts            # 主入口文件
-│   │   ├── base.ts             # 基础服务类
-│   │   ├── vocabulary.ts       # 单词服务
-│   │   ├── interpretations.ts  # 释义服务
-│   │   ├── notes.ts            # 助记服务
-│   │   ├── notepads.ts         # 云词本服务
-│   │   └── phrases.ts          # 例句服务
-│   └── types/                  # 类型定义
-│       └── index.ts            # 类型定义
-├── docs/                	      # 文档
+│   ├── types.ts                # 类型定义
+│   └── resources/              # API 服务类
+│       ├── index.ts            # 主入口文件
+│       ├── base.ts             # 基础服务类
+│       ├── vocabulary.ts       # 单词服务
+│       ├── interpretations.ts  # 释义服务
+│       ├── notes.ts            # 助记服务
+│       ├── notepads.ts         # 云词本服务
+│       └── phrases.ts          # 例句服务
+├── docs/                	     # 文档
 │   ├── developer_guide.md      # 开发者指南
-│   └── user_guide.md           # 用户指南
+│   └── API.md                  # 用户指南
 ├── eslint.config.mjs           # ESLint 配置
 ├── .prettierrc                 # Prettier 配置
 ├── tsconfig.json               # TypeScript 配置
@@ -62,7 +61,6 @@ SDK采用分层架构设计：
 
    - 基于Axios的HTTP客户端
    - 请求拦截器：添加认证信息、设置通用头部
-   - 响应拦截器：处理错误、转换响应格式
 
 4. **错误处理层 (Error Handling Layer)**
    - 自定义错误类：将API错误转换为友好的错误对象

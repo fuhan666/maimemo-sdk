@@ -1,11 +1,11 @@
 import { AxiosInstance } from 'axios';
-import { BaseService } from './base';
+import { BaseService } from './base.js';
 import {
   Interpretation,
   CreateInterpretationParams,
   UpdateInterpretationParams,
   ApiResponseData,
-} from '../types';
+} from '../types.js';
 
 /**
  * 释义资源服务

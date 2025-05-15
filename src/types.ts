@@ -1,8 +1,11 @@
+import { AxiosRequestConfig } from 'axios';
+
 /**
  * 通用配置类型
  */
 export interface MaimemoOptions {
   env?: 'production' | 'development';
+  axiosConfig?: AxiosRequestConfig;
 }
 
 /**
