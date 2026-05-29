@@ -39,6 +39,7 @@ export class InterpretationService extends BaseService {
 
   /**
    * 创建释义
+   * 官方文档标注为 200，实测创建成功时可能返回 201，SDK 会按 2xx 正常处理。
    * @param params 创建释义参数
    * @returns 创建的释义
    */
@@ -64,6 +65,7 @@ export class InterpretationService extends BaseService {
 
   /**
    * 更新释义
+   * 官方文档标注为 200，实测更新成功时可能返回 201，SDK 会按 2xx 正常处理。
    * @param id 释义ID
    * @param params 更新释义参数
    * @returns 更新后的释义

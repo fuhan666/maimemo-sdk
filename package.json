@@ -1,6 +1,6 @@
 {
   "name": "maimemo",
-  "version": "3.10.0",
+  "version": "3.10.1",
   "description": "墨墨背单词开放 API 的 Node.js SDK。Node.js SDK for Maimemo Open API.",
   "keywords": [
     "maimemo",

@@ -8,6 +8,7 @@ import { InterpretationService } from './resources/interpretations.js';
 import { NoteService } from './resources/notes.js';
 import { NotepadService } from './resources/notepads.js';
 import { PhraseService } from './resources/phrases.js';
+import { StudyService } from './resources/study.js';
 
 /**
  * 墨墨背单词API客户端
@@ -20,6 +21,7 @@ export class Maimemo {
   private _notes?: NoteService;
   private _notepads?: NotepadService;
   private _phrases?: PhraseService;
+  private _study?: StudyService;
 
   /**
    * 创建墨墨背单词API客户端
@@ -87,5 +89,12 @@ export class Maimemo {
       this._phrases = new PhraseService(this._client);
     }
     return this._phrases;
+  }
+
+  public get study(): StudyService {
+    if (!this._study) {
+      this._study = new StudyService(this._client);
+    }
+    return this._study;
   }
 }

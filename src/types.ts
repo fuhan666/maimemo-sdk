@@ -204,28 +204,33 @@ export type NotepadTag =
 
 /**
  * 云词本解析结果项目类型
+ * 官方文档描述与实测返回不完全一致；实测 list 元素为扁平结构。
  */
-export interface NotepadParsedItem {
-  type: 'CHAPTER' | 'WORD';
-  data: {
-    chapter: string;
-    word?: string;
-  };
-}
+export type NotepadParsedItem =
+  | {
+      type: 'CHAPTER';
+      chapter: string;
+    }
+  | {
+      type: 'WORD';
+      chapter: string;
+      word: string;
+    };
 
 /**
  * 云词本类型
+ * 创建/更新接口实测可能只返回简化对象，因此 creator/content/list 为可选字段。
  */
 export interface Notepad {
   id: string;
   type: NotepadType;
-  creator: number;
+  creator?: number;
   status: NotepadStatus;
-  content: string;
+  content?: string;
   title: string;
   brief: string;
   tags: NotepadTag[];
-  list: NotepadParsedItem[];
+  list?: NotepadParsedItem[];
   created_time: string;
   updated_time: string;
 }
@@ -254,11 +259,12 @@ export interface UpdateNotepadParams {
 
 /**
  * 简要云词本类型
+ * 部分接口实测返回中可能不包含 creator。
  */
 export interface BriefNotepad {
   id: string;
   type: NotepadType;
-  creator: number;
+  creator?: number;
   status: NotepadStatus;
   title: string;
   brief: string;
@@ -317,13 +323,14 @@ export interface PhraseHighlightRange {
 
 /**
  * 例句类型
+ * 创建/更新接口实测返回中可能不包含 highlight。
  */
 export interface Phrase {
   id: string;
   phrase: string;
   interpretation: string;
   tags: PhraseTag[];
-  highlight: PhraseHighlightRange[];
+  highlight?: PhraseHighlightRange[];
   status: PhraseStatus;
   created_time: string;
   updated_time: string;
@@ -357,4 +364,137 @@ export interface UpdatePhraseParams {
 export interface Vocabulary {
   id: string;
   spelling: string;
+}
+
+/**
+ * 批量查询单词参数
+ */
+export type ListVocabularyParams =
+  | {
+      spellings: string[];
+      ids?: never;
+    }
+  | {
+      ids: string[];
+      spellings?: never;
+    };
+
+type StudyWordQuery =
+  | {
+      voc_ids: string[];
+      spellings?: never;
+    }
+  | {
+      spellings: string[];
+      voc_ids?: never;
+    }
+  | {
+      voc_ids?: never;
+      spellings?: never;
+    };
+
+/**
+ * 学习反馈类型
+ */
+export const StudyResponse = {
+  FAMILIAR: 'FAMILIAR',
+  VAGUE: 'VAGUE',
+  FORGET: 'FORGET',
+  WELL_FAMILIAR: 'WELL_FAMILIAR',
+  CANCEL_WELL_FAMILIAR: 'CANCEL_WELL_FAMILIAR',
+} as const;
+
+export type StudyResponse = (typeof StudyResponse)[keyof typeof StudyResponse];
+
+/**
+ * 学习记录标签
+ */
+export const StudyRecordTag = {
+  STICKING: 'STICKING',
+  WELL_FAMILIAR: 'WELL_FAMILIAR',
+} as const;
+
+export type StudyRecordTag =
+  (typeof StudyRecordTag)[keyof typeof StudyRecordTag];
+
+/**
+ * 今日学习进度
+ */
+export interface StudyProgress {
+  finished: number;
+  total: number;
+  study_time: number;
+}
+
+/**
+ * 今日学习单词
+ */
+export interface StudyTodayItem {
+  voc_id: string;
+  voc_spelling: string;
+  order: number;
+  first_response?: StudyResponse;
+  is_new: boolean;
+  is_finished: boolean;
+}
+
+/**
+ * 学习记录
+ */
+export interface StudyRecord {
+  voc_id: string;
+  voc_spelling: string;
+  add_date: string;
+  first_study_date?: string;
+  last_study_date?: string;
+  next_study_date?: string;
+  last_response?: StudyResponse;
+  study_count: number;
+  tags: StudyRecordTag;
+}
+
+/**
+ * 查询今日学习单词参数
+ */
+export type GetTodayItemsParams = StudyWordQuery & {
+  is_finished?: boolean;
+  is_new?: boolean;
+  limit?: number;
+};
+
+/**
+ * 查询学习记录参数
+ */
+export type QueryStudyRecordsParams = StudyWordQuery & {
+  next_study_date?: {
+    start?: string;
+    end?: string;
+  };
+  as_count?: boolean;
+  limit?: number;
+};
+
+/**
+ * 查询学习记录结果
+ */
+export interface QueryStudyRecordsResult {
+  records: StudyRecord[];
+  count: number;
+}
+
+/**
+ * 添加单词到学习计划参数
+ */
+export interface AddWordsParams {
+  words: Array<{
+    id: string;
+  }>;
+  advance: boolean;
+}
+
+/**
+ * 提前复习参数
+ */
+export interface AdvanceStudyParams {
+  voc_ids: string[];
 }

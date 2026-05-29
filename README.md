@@ -16,10 +16,10 @@ import { Maimemo } from 'maimemo';
 // 初始化客户端
 const client = new Maimemo('your-token');
 
-// 查询单词
+// 获取单词
 async function queryVocabulary() {
   try {
-    const vocabulary = await client.vocabulary.query('apple');
+    const vocabulary = await client.vocabulary.get('apple');
     console.log(vocabulary);
   } catch (error) {
     console.error('Error:', error);
@@ -38,8 +38,23 @@ queryVocabulary();
 - `notepads` - 云词本相关API
 - `phrases` - 例句相关API
 - `vocabulary` - 单词相关API
+- `study` - 学习数据相关API（公测）
 
 每个模块提供对应的CRUD操作，详细API文档请参见[完整文档](./docs/API.md)。
+
+### 单词接口兼容性
+
+- 推荐使用 `client.vocabulary.get(spelling)` 获取单个单词。
+- 旧版本的 `client.vocabulary.query(spelling)` 会继续保留，行为与 `get(spelling)` 一致，但新代码建议迁移到 `get`。
+- 批量查询请使用 `client.vocabulary.list({ spellings })` 或 `client.vocabulary.list({ ids })`。
+
+### 学习数据接口说明
+
+`client.study.*` 对应官方“学习数据（公测）”接口。公测期间官方不保证可用性，接口可能调整，并且需要在 App 中开启自动同步。
+
+### 官方请求频率限制
+
+最新官方文档说明的请求频率限制为：10 秒内 20 次、60 秒内 40 次、5 小时内 2000 次。
 
 ## 版本号说明
 
@@ -49,17 +64,13 @@ queryVocabulary();
 - `bc`: 将官方 API 版本 (`a.b.c`) 中的 `b` 和 `c` 组合而成（例如，若官方 API 为 `1.2.3`，则 `bc` 为 `23`）。
 - `d`: 本 SDK 的修订号，从 `0` 开始。此号在 SDK 每次进行功能更新或缺陷修复时递增。
 
-## 与官方文档不一致之处
+## 官方文档与实测差异
 
-在使用本 SDK 时，请注意以下几点与墨墨开放API官方文档描述不一致的地方：
+本 SDK 以墨墨开放 API 官方文档为基准实现，但部分接口的实际返回与官方文档存在差异。SDK 会优先兼容真实 API 行为，并在返回值和类型定义上提供稳定封装。
 
-- **删除操作的返回值**：
-  - 删除释义接口`interpretations.delete()`: 官方文档未标明返回值，根据实际测试结果，该接口会返回操作成功与否的布尔值以及错误信息。
-  - 删除助记接口`notes.delete()`: 官方文档未标明返回值，根据实际测试结果，该接口会返回操作成功与否的布尔值以及错误信息。
-  - 删除例句接口`phrases.delete()`: 官方文档描述会返回被删除例句的完整信息，根据实际测试结果，返回值中并未包含被删除的例句信息，仅返回操作成功与否的布尔值以及错误信息。
-  - 删除云词本接口`notepads.delete()`: 官方文档描述会返回被删除云词本的完整信息，根据实际测试结果，返回值中并未包含被删除的云词本信息，仅返回操作成功与否的布尔值以及错误信息。
+例如，部分删除接口实测并不会返回被删除对象，SDK 因此统一将删除方法封装为 `boolean` 返回值。
 
-所有删除接口均不会返回包含详细信息的对象，而是返回操作成功与否的布尔值以及错误信息。
+完整差异说明请参见 [API 文档中的官方文档与实测差异说明](./docs/API.md#官方文档与实测差异说明)。
 
 ## 开源协议
 
