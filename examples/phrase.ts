@@ -13,10 +13,10 @@ const TOKEN = 'your-token';
 // 初始化客户端
 const client = new Maimemo(TOKEN);
 
-// 查询单词（获取vocId，为后续操作做准备）
-async function queryVocabulary(spelling: string) {
+// 获取单词（获取vocId，为后续操作做准备）
+async function getVocabulary(spelling: string) {
   try {
-    const vocabulary = await client.vocabulary.query(spelling);
+    const vocabulary = await client.vocabulary.get(spelling);
     console.log('单词信息:', vocabulary);
     return vocabulary;
   } catch (error) {
@@ -24,7 +24,7 @@ async function queryVocabulary(spelling: string) {
       console.error('单词未找到');
       throw error;
     }
-    console.error('查询单词失败:', error);
+    console.error('获取单词失败:', error);
     throw error;
   }
 }
@@ -92,9 +92,9 @@ async function deletePhrase(phraseId: string) {
 // 主函数
 async function main() {
   try {
-    console.log('开始查询单词...');
+    console.log('开始获取单词...');
     // 确保查询一个存在的单词，以获得有效的 vocId
-    const vocabulary = await queryVocabulary('apple');
+    const vocabulary = await getVocabulary('apple');
     if (!vocabulary) {
       console.error('未能获取单词信息，示例无法继续。');
       return;

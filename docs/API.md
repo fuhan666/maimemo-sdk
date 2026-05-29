@@ -8,9 +8,12 @@
   - [安装](#安装)
   - [基本用法](#基本用法)
   - [API参考](#api参考)
+    - [官方文档与实测差异说明](#官方文档与实测差异说明)
     - [初始化客户端](#初始化客户端)
     - [单词API](#单词api)
-      - [查询单词](#查询单词)
+      - [获取单词](#获取单词)
+      - [查询单词（兼容旧 API）](#查询单词兼容旧-api)
+      - [批量查询单词](#批量查询单词)
     - [释义API](#释义api)
       - [获取释义列表](#获取释义列表)
       - [创建释义](#创建释义)
@@ -36,6 +39,13 @@
       - [创建例句](#创建例句)
       - [更新例句](#更新例句)
       - [删除例句](#删除例句)
+    - [学习数据（公测）API](#学习数据公测api)
+      - [获取今日学习进度](#获取今日学习进度)
+      - [获取今日学习单词](#获取今日学习单词)
+      - [查询学习记录](#查询学习记录)
+      - [添加单词到学习计划](#添加单词到学习计划)
+      - [提前复习](#提前复习)
+    - [请求频率限制](#请求频率限制)
   - [错误处理](#错误处理)
     - [错误类型](#错误类型)
     - [通用错误码](#通用错误码)
@@ -69,11 +79,11 @@ import { Maimemo } from 'maimemo';
 // 初始化客户端
 const client = new Maimemo('your-token-here');
 
-// 查询单词
+// 获取单词
 async function getWordDetails() {
   try {
-    // 查询单词获取ID
-    const vocabulary = await client.vocabulary.query('apple');
+    // 获取单词ID
+    const vocabulary = await client.vocabulary.get('apple');
     console.log(`单词ID: ${vocabulary.id}, 拼写: ${vocabulary.spelling}`);
 
     // 获取单词的释义
@@ -98,6 +108,18 @@ getWordDetails();
 更多用法和示例代码，请参考 [examples](https://github.com/fuhan666/maimemo-sdk/tree/main/examples) 目录。
 
 ## API参考
+
+### 官方文档与实测差异说明
+
+SDK 以 `docs/official/new-official.yaml` 为基准实现；以下为真实 API 验证中发现的已知差异，SDK 会尽量以兼容真实返回为优先：
+
+- **创建/更新接口状态码**：释义、助记、云词本、例句的创建/更新接口，官方文档多标注为 `200`，实测成功时可能返回 `201`。SDK 使用 Axios 默认 2xx 成功判定，因此会按正常成功响应处理。
+- **删除接口返回体**：部分删除接口官方文档描述会返回被删除对象，实测可能只返回 `errors` 与 `success`。SDK 对删除方法统一返回 `boolean`。
+- **云词本详情结构**：云词本详情中的 `list` 实测为扁平结构，例如 `{ type: 'CHAPTER', chapter: '...' }` 或 `{ type: 'WORD', chapter: '...', word: '...' }`，不是嵌套在 `data` 字段下的结构。
+- **云词本简化返回**：云词本创建/更新接口实测可能不返回 `creator`、`content`、`list` 字段；SDK 因此将这些字段标记为可选。
+- **云词本 `ids` 查询参数**：官方文档标注列表接口支持按 `ids` 过滤；补充测试后确认常见 GET 数组序列化均不可用：`ids=<id>` 返回 `ids must be an array`，`ids[]=<id>` 与 `ids[0]=<id>` 返回 `common_internal_error`。当前不建议依赖该参数，查询单个云词本请使用 `client.notepads.get(id)`。
+- **例句 `highlight` 字段**：例句创建/更新接口实测返回体可能不包含 `highlight`；SDK 因此将该字段标记为可选。
+- **学习数据（公测）接口**：学习接口与账号状态强相关。若账号未开启自动同步、当日未打开 App 初始化或学习数据状态不满足要求，实测可能返回 `study_data_not_found`、`common_internal_error` 等错误。
 
 ### 初始化客户端
 
@@ -133,7 +155,9 @@ const clientWithCustomConfig = new Maimemo('your-token', {
 
 ### 单词API
 
-#### 查询单词
+#### 获取单词
+
+推荐使用 `client.vocabulary.get(spelling)` 获取单个单词。该方法对应官方 `GET /api/v1/vocabulary` 接口。
 
 **参数:**
 
@@ -146,10 +170,59 @@ const clientWithCustomConfig = new Maimemo('your-token', {
 **示例:**
 
 ```typescript
-// 根据拼写查询单词
-const vocabulary = await client.vocabulary.query('apple');
+// 根据拼写获取单词
+const vocabulary = await client.vocabulary.get('apple');
 console.log(vocabulary);
 // 输出: { id: 'voc-IfjIcasJ9PrA5XWrvmnrgceiI1hTC45HqtwLUaZfTNhBsfYvtR5nL4tr3DLB8P-m', spelling: 'apple' }
+```
+
+#### 查询单词（兼容旧 API）
+
+`client.vocabulary.query(spelling)` 是旧版本 SDK 已公开的方法，会继续保留以兼容现有用户。它的行为与 `get(spelling)` 完全一致，但新代码建议迁移到 `get(spelling)`。
+
+**参数:**
+
+- `spelling: string` - 单词拼写
+
+**返回:**
+
+- `Promise<Vocabulary>` - 包含单词ID和拼写的对象
+
+**示例:**
+
+```typescript
+// 兼容旧代码：行为与 client.vocabulary.get('apple') 一致
+const vocabulary = await client.vocabulary.query('apple');
+```
+
+#### 批量查询单词
+
+使用 `client.vocabulary.list(params)` 按拼写或单词 ID 批量查询单词。该方法对应官方 `POST /api/v1/vocabulary/query` 接口。
+
+**参数:**
+
+- `params: ListVocabularyParams` - 批量查询参数
+  - `spellings: string[]` - 单词拼写列表，最多 1000 个
+  - 或 `ids: string[]` - 单词 ID 列表，最多 1000 个
+
+`spellings` 与 `ids` 为互斥条件，请一次只传其中一种。
+
+**返回:**
+
+- `Promise<Vocabulary[]>` - 单词对象数组
+
+**示例:**
+
+```typescript
+// 按拼写批量查询
+const vocabulariesBySpelling = await client.vocabulary.list({
+  spellings: ['apple', 'banana'],
+});
+
+// 按单词 ID 批量查询
+const vocabulariesById = await client.vocabulary.list({
+  ids: ['voc-IfjIcasJ9PrA5XWrvmnrgceiI1hTC45HqtwLUaZfTNhBsfYvtR5nL4tr3DLB8P-m'],
+});
 ```
 
 ### 释义API
@@ -458,8 +531,11 @@ await client.notes.delete('note-id-123');
 // 获取云词本列表
 const notepads = await client.notepads.list(10, 0);
 
-// 获取指定ID的云词本列表
+// 不推荐：实测官方接口无法稳定处理 ids 数组参数
 const specificNotepads = await client.notepads.list(10, 0, ['id1', 'id2']);
+
+// 推荐：查询单个云词本详情
+const notepad = await client.notepads.get('id1');
 ```
 
 #### 获取云词本详情
@@ -644,6 +720,138 @@ const updatedPhrase = await client.phrases.update('phrase-id-123', {
 await client.phrases.delete('phrase-id-123');
 ```
 
+### 学习数据（公测）API
+
+`client.study.*` 对应官方“学习数据（公测）”接口。公测期间官方不保证接口可用性，接口可能调整；使用前请确认账号已在 App 中开启自动同步。部分接口还依赖当日打开 App 完成初始化，详见各接口说明。
+
+#### 获取今日学习进度
+
+**参数:**
+
+无
+
+**返回:**
+
+- `Promise<StudyProgress>` - 今日学习进度
+  - `finished: number` - 今日已完成数量
+  - `total: number` - 今日总数量
+  - `study_time: number` - 今日学习时长，单位为毫秒
+
+如果当日未打开 App 进行初始化，官方接口无法准确计算今日总数量。
+
+**示例:**
+
+```typescript
+const progress = await client.study.getStudyProgress();
+console.log(progress);
+// 输出: { finished: 10, total: 50, study_time: 600 }
+```
+
+#### 获取今日学习单词
+
+**参数:**
+
+- `params?: GetTodayItemsParams` - 查询参数
+  - `is_finished?: boolean` - 是否已完成
+  - `is_new?: boolean` - 是否新词
+  - `voc_ids?: string[]` - 单词 ID 列表，最多 1000 个；传入后会忽略其他筛选条件
+  - `spellings?: string[]` - 单词拼写列表，最多 1000 个；不可与 `voc_ids` 同时使用
+  - `limit?: number` - 返回数量限制，最多 1000，默认 50
+
+如果当日未打开 App 进行初始化，官方接口无法获取今日学习单词。
+
+**返回:**
+
+- `Promise<StudyTodayItem[]>` - 今日学习单词列表
+
+**示例:**
+
+```typescript
+const unfinishedItems = await client.study.getTodayItems({
+  is_finished: false,
+  limit: 20,
+});
+```
+
+#### 查询学习记录
+
+**参数:**
+
+- `params?: QueryStudyRecordsParams` - 查询参数
+  - `next_study_date?: { start?: string; end?: string }` - 下次学习日期范围
+  - `voc_ids?: string[]` - 单词 ID 列表；传入后会忽略其他筛选条件
+  - `spellings?: string[]` - 单词拼写列表，最多 1000 个；不可与 `voc_ids` 同时使用
+  - `as_count?: boolean` - 是否仅计算结果总数；为 `true` 时 `records` 为空，`count` 有效
+  - `limit?: number` - 返回数量限制，最多 1000，默认 50
+
+**返回:**
+
+- `Promise<QueryStudyRecordsResult>` - 学习记录和总数
+  - `records: StudyRecord[]` - 学习记录列表
+  - `count: number` - 记录总数
+
+**示例:**
+
+```typescript
+const studyRecords = await client.study.queryStudyRecords({
+  spellings: ['apple', 'banana'],
+  limit: 20,
+});
+console.log(studyRecords.records, studyRecords.count);
+```
+
+#### 添加单词到学习计划
+
+**参数:**
+
+- `params: AddWordsParams` - 添加参数
+  - `words: Array<{ id: string }>` - 要添加的单词 ID 列表，最多 1000 个
+  - `advance: boolean` - 是否一并提前复习，无等级限制
+
+**返回:**
+
+- `Promise<number>` - 成功添加的数量
+
+**示例:**
+
+```typescript
+const addedCount = await client.study.addWords({
+  words: [{ id: 'voc-IfjIcasJ9PrA5XWrvmnrgceiI1hTC45HqtwLUaZfTNhBsfYvtR5nL4tr3DLB8P-m' }],
+  advance: false,
+});
+```
+
+#### 提前复习
+
+**参数:**
+
+- `params: AdvanceStudyParams` - 提前复习参数
+  - `voc_ids: string[]` - 要提前复习的单词 ID 列表，最多 1000 个
+
+该接口会将单词提前到当下马上复习，需要账号升级到 10 级后解锁提前复习功能。
+
+**返回:**
+
+- `Promise<number>` - 成功提前复习的数量
+
+**示例:**
+
+```typescript
+const advancedCount = await client.study.advanceStudy({
+  voc_ids: ['voc-IfjIcasJ9PrA5XWrvmnrgceiI1hTC45HqtwLUaZfTNhBsfYvtR5nL4tr3DLB8P-m'],
+});
+```
+
+### 请求频率限制
+
+最新官方文档说明的请求频率限制为：
+
+- 10 秒内最多 20 次请求
+- 60 秒内最多 40 次请求
+- 5 小时内最多 2000 次请求
+
+超过限制时，接口通常会返回 `429`，SDK 会抛出 `APIError`。
+
 ## 错误处理
 
 ### 错误类型
@@ -664,7 +872,7 @@ SDK中定义了以下错误类型：
 
 | 状态码 | 描述                 | SDK 错误类          |
 | ------ | -------------------- | ------------------- |
-| 400    | 请求参数错误         | ValidationError     |
+| 400    | 请求参数错误         | APIError            |
 | 401    | 未授权（Token 无效） | AuthenticationError |
 | 404    | 资源未找到           | NotFoundError       |
 | 429    | 请求频率过高         | APIError            |
@@ -675,7 +883,7 @@ SDK中定义了以下错误类型：
 
 ```typescript
 try {
-  const vocabulary = await client.vocabulary.query('nonexistent');
+  const vocabulary = await client.vocabulary.get('nonexistent');
 } catch (error) {
   if (error instanceof NotFoundError) {
     console.error('单词未找到');
@@ -688,7 +896,7 @@ try {
       'API服务器错误：',
       error.message,
       '状态码：',
-      error.statusCode
+      error.status
     );
   } else if (error instanceof NetworkError) {
     console.error('网络错误：', error.message);

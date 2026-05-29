@@ -38,6 +38,7 @@ export class NoteService extends BaseService {
 
   /**
    * 创建助记
+   * 官方文档标注为 200，实测创建成功时可能返回 201，SDK 会按 2xx 正常处理。
    * @param params 创建助记参数
    * @returns 创建的助记
    */
@@ -61,6 +62,7 @@ export class NoteService extends BaseService {
 
   /**
    * 更新助记
+   * 官方文档标注为 200，实测更新成功时可能返回 201，SDK 会按 2xx 正常处理。
    * @param id 助记ID
    * @param params 更新助记参数
    * @returns 更新后的助记

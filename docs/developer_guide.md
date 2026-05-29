@@ -30,7 +30,8 @@ maimemo-sdk/
 │       ├── interpretations.ts  # 释义服务
 │       ├── notes.ts            # 助记服务
 │       ├── notepads.ts         # 云词本服务
-│       └── phrases.ts          # 例句服务
+│       ├── phrases.ts          # 例句服务
+│       └── study.ts            # 学习数据服务（公测）
 ├── docs/                	     # 文档
 │   ├── developer_guide.md      # 开发者指南
 │   └── API.md                  # 用户指南
@@ -50,12 +51,14 @@ SDK采用分层架构设计：
 1. **客户端层 (Client Layer)**
 
    - `Maimemo` 类：统一入口点，管理全局配置和服务实例
-   - 负责初始化各服务并提供访问接口
+   - 负责初始化各服务并提供访问接口，包括 `vocabulary`、`interpretations`、`notes`、`notepads`、`phrases` 和 `study`
 
 2. **服务层 (Service Layer)**
 
    - 各资源服务类：每种API资源对应一个服务类
    - 继承自 `BaseService`，实现具体API调用逻辑
+   - `VocabularyService.get(spelling)` 是推荐的单词获取入口，`query(spelling)` 为兼容旧版本保留，`list(params)` 用于批量查询
+   - `StudyService` 封装官方学习数据公测接口，通过 `client.study` 暴露
 
 3. **网络层 (Network Layer)**
 

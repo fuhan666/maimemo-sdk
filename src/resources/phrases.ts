@@ -38,6 +38,7 @@ export class PhraseService extends BaseService {
 
   /**
    * 创建例句
+   * 官方文档标注为 200，实测创建成功时可能返回 201，且返回体可能不包含 highlight。
    * @param params 创建例句参数
    * @returns 创建的例句
    */
@@ -63,6 +64,7 @@ export class PhraseService extends BaseService {
 
   /**
    * 更新例句
+   * 官方文档标注为 200，实测更新成功时可能返回 201，且返回体可能不包含 highlight。
    * @param id 例句ID
    * @param params 更新例句参数
    * @returns 更新后的例句

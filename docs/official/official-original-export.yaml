@@ -18,6 +18,14 @@ info:
     ```
 
 
+    ## 请求频控
+
+    - 10 秒 20 次
+
+    - 60 秒 40 次
+
+    - 5 小时 2000 次
+
     ## 错误码
 
     ### 释义
@@ -45,6 +53,14 @@ info:
 
 
     ### 例句
+
+    | 状态码 | 错误码 | 说明 |
+
+    | ----- | ----- | --- |
+
+
+
+    ### 学习数据（公测）
 
     | 状态码 | 错误码 | 说明 |
 
@@ -924,8 +940,309 @@ paths:
       security:
         - user:
             - ''
+  /api/v1/study/get_study_progress:
+    servers: &ref_4
+      - url: https://open.maimemo.com/open
+        description: 生产服务
+      - url: https://open-dev.maimemo.com/open
+        description: 测试服务
+    post:
+      tags:
+        - 学习数据（公测）
+      operationId: maimemo.openapi.study.v1.StudyService.GetStudyProgress
+      summary: 获取今日学习进度（公测）
+      requestBody: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  progress:
+                    description: 学习进度及时长<br><br>引用自：[StudyProgress](/schemas/StudyProgress)
+                    type: object
+                    $ref: '#/components/schemas/StudyProgress'
+                required:
+                  - progress
+      parameters: []
+      security:
+        - user:
+            - ''
+      description: |-
+        如果当日未打开 App 进行初始化则无法准确计算总数
+          \
+          \
+        <b>公测期间不保证可用性和可能会随时调整，需要在 App 中开启自动同步</b>
+  /api/v1/study/get_today_items:
+    servers: *ref_4
+    post:
+      tags:
+        - 学习数据（公测）
+      operationId: maimemo.openapi.study.v1.StudyService.GetTodayItems
+      summary: 获取今日学习单词（公测）
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                is_finished:
+                  description: 筛选是否已完成
+                  type: boolean
+                  example: false
+                is_new:
+                  description: 筛选是否新学单词
+                  type: boolean
+                  example: false
+                voc_ids:
+                  description: 根据单词 ID 列表查询，最多 1000，忽略其他条件
+                  maxItems: 1000
+                  type: array
+                  example:
+                    - id1
+                    - id2
+                  items:
+                    type: string
+                spellings:
+                  description: 根据单词拼写列表查询，最多 1000，忽略其他条件，不可与 voc_ids 同时使用
+                  maxItems: 1000
+                  type: array
+                  example:
+                    - hello
+                    - world
+                  items:
+                    type: string
+                limit:
+                  description: 最多根据学习顺序获取前 1000 条数据，默认 50
+                  maximum: 1000
+                  type: integer
+                  example: 50
+              required: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  today_items:
+                    description: >-
+                      今日学习列表<br><br>引用自：[StudyTodayItem](/schemas/StudyTodayItem)
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StudyTodayItem'
+                required:
+                  - today_items
+      parameters: []
+      security:
+        - user:
+            - ''
+      description: |-
+        如果当日未打开 App 进行初始化则无法获取
+          \
+          \
+        <b>公测期间不保证可用性和可能会随时调整，需要在 App 中开启自动同步</b>
+  /api/v1/study/query_study_records:
+    servers: *ref_4
+    post:
+      tags:
+        - 学习数据（公测）
+      operationId: maimemo.openapi.study.v1.StudyService.QueryStudyRecords
+      summary: 查询学习记录（公测）
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                next_study_date:
+                  description: 根据下次学习日期筛选
+                  type: object
+                  properties:
+                    start:
+                      description: 大于等于时间，北京时区
+                      type: string
+                      format: ISODate
+                      example: 2021-07-09T00:16:00.000Z
+                    end:
+                      description: 小于等于时间，北京时区
+                      type: string
+                      format: ISODate
+                      example: 2021-07-09T00:16:00.000Z
+                  required: []
+                voc_ids:
+                  description: 根据单词 ID 筛选，忽略其他条件
+                  type: array
+                  example:
+                    - id1
+                    - id2
+                  items:
+                    type: string
+                spellings:
+                  description: 根据单词拼写列表查询，最多 1000，忽略其他条件，不可与 voc_ids 同时使用
+                  maxItems: 1000
+                  type: array
+                  example:
+                    - hello
+                    - world
+                  items:
+                    type: string
+                as_count:
+                  description: 仅计算结果总数，不返回数据列表
+                  type: boolean
+                  example: false
+                limit:
+                  description: 最多根据下次学习日期获取前 1000 条数据，默认 50
+                  maximum: 1000
+                  type: integer
+                  example: 50
+              required: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  records:
+                    description: >-
+                      `as_count=true`
+                      时为空<br><br>引用自：[StudyRecord](/schemas/StudyRecord)
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StudyRecord'
+                  count:
+                    description: '`as_count=true` 时有效'
+                    type: integer
+                    example: 114514
+                required:
+                  - records
+                  - count
+      parameters: []
+      security:
+        - user:
+            - ''
+      description: >-
+        查询场景举例
+
+        - 获取规划总量：`as_count=true`
+
+        - 获取未来某天要背的单词数：`next_study_date: {end: "2026-04-01T00:00:00+08:00"},
+        as_count=true`
+
+        - 获取未来某天要背的单词列表：`next_study_date: {end: "2026-04-01T00:00:00+08:00"}`
+
+          \
+        <b>公测期间不保证可用性和可能会随时调整，需要在 App 中开启自动同步</b>
+  /api/v1/study/add_words:
+    servers: *ref_4
+    post:
+      tags:
+        - 学习数据（公测）
+      operationId: maimemo.openapi.study.v1.StudyService.AddWords
+      summary: 添加单词（公测）
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                words:
+                  description: 单词列表，最多一次添加 1000 个单词
+                  maxItems: 1000
+                  type: array
+                  items:
+                    properties:
+                      id:
+                        description: 单词 ID，通过查询单词接口获取
+                        type: string
+                        example: id1
+                    required:
+                      - id
+                advance:
+                  description: 是否一并提前复习，无等级限制
+                  type: boolean
+                  example: false
+              required:
+                - words
+                - advance
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  added_count:
+                    description: 成功添加的数量，单词上限不足或者已经添加过会影响成功添加的数量
+                    type: integer
+                    example: 114
+                required:
+                  - added_count
+      parameters: []
+      security:
+        - user:
+            - ''
+      description: |-
+
+        <b>公测期间不保证可用性和可能会随时调整，需要在 App 中开启自动同步</b>
+  /api/v1/study/advance_study:
+    servers: *ref_4
+    post:
+      tags:
+        - 学习数据（公测）
+      operationId: maimemo.openapi.study.v1.StudyService.AdvanceStudy
+      summary: 提前复习（公测）
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                voc_ids:
+                  description: ''
+                  maxItems: 1000
+                  type: array
+                  example:
+                    - id1
+                    - id2
+                  items:
+                    type: string
+              required:
+                - voc_ids
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  advanced_count:
+                    description: 成功提前的数量，单词未加入会影响成功提前的数量
+                    type: integer
+                    example: 514
+                required:
+                  - advanced_count
+      parameters: []
+      security:
+        - user:
+            - ''
+      description: |-
+        将单词提前到当下马上复习，需要升级到 10 级解锁提前复习功能
+
+        <b>公测期间不保证可用性和可能会随时调整，需要在 App 中开启自动同步</b>
   /api/v1/vocabulary:
-    servers:
+    servers: &ref_5
       - url: https://open.maimemo.com/open
         description: 生产服务
       - url: https://open-dev.maimemo.com/open
@@ -933,8 +1250,8 @@ paths:
     get:
       tags:
         - 单词
-      operationId: maimemo.openapi.vocabulary.v1.VocabularyService.QueryVocabulary
-      summary: 查询单词
+      operationId: maimemo.openapi.vocabulary.v1.VocabularyService.GetVocabulary
+      summary: 获取单词
       requestBody: {}
       responses:
         '200':
@@ -963,6 +1280,55 @@ paths:
       security:
         - user:
             - ''
+  /api/v1/vocabulary/query:
+    servers: *ref_5
+    post:
+      tags:
+        - 单词
+      operationId: maimemo.openapi.vocabulary.v1.VocabularyService.ListVocabulary
+      summary: 查询单词
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 暂无文档
+              properties:
+                spellings:
+                  description: 根据拼写查询，最多 1000
+                  maxItems: 1000
+                  type: array
+                  example: null
+                  items:
+                    type: string
+                ids:
+                  description: 根据 id 查询，最多 1000
+                  maxItems: 1000
+                  type: array
+                  example: null
+                  items:
+                    type: string
+              required: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 暂无文档
+                properties:
+                  voc:
+                    description: <br><br>引用自：[Vocabulary](/schemas/Vocabulary)
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vocabulary'
+                required:
+                  - voc
+      parameters: []
+      security:
+        - user:
+            - ''
+      description: 查询条件互斥，只能生效一个
 components:
   schemas:
     InterpretationStatus:
@@ -1363,49 +1729,128 @@ components:
         - created_time
         - updated_time
         - origin
-    TokenStatus:
+    StudyResponse:
       type: string
       description: |-
-        令牌状态
 
-        - `NORMAL`: 正常
-        - `DELETED`: 删除
+
+        - `FAMILIAR`: 认识
+        - `VAGUE`: 模糊
+        - `FORGET`: 忘记
+        - `WELL_FAMILIAR`: 熟知
+        - `CANCEL_WELL_FAMILIAR`: 取消熟知
       enum:
-        - NORMAL
-        - DELETED
-    Token:
+        - FAMILIAR
+        - VAGUE
+        - FORGET
+        - WELL_FAMILIAR
+        - CANCEL_WELL_FAMILIAR
+    StudyProgress:
       type: object
-      description: 令牌
+      description: 暂无文档
       properties:
-        token:
-          description: 令牌
-          type: string
-          example: cCB3Deec78Ac6eFcE5E70d6fd85D9d71DD8ebFcCe9283Dc3Fcb0D9dfB26b033B
-        status:
-          description: |-
-            状态
-            @Example NORMAL<br><br>引用自：[TokenStatus](/schemas/TokenStatus)
-          type: object
-          $ref: '#/components/schemas/TokenStatus'
-        created_time:
-          description: |-
-            创建时间
-            ISO 8601 格式
-          type: string
-          format: ISODate
-          example: 2023-03-13T16:00:00.000Z
-        updated_time:
-          description: |-
-            更新时间
-            ISO 8601 格式
-          type: string
-          format: ISODate
-          example: 2023-03-13T16:00:00.000Z
+        finished:
+          description: 已完成的单词数
+          type: integer
+          example: 10
+        total:
+          description: 今日应完成的单词数
+          type: integer
+          example: 20
+        study_time:
+          description: 今日学习时长，毫秒
+          type: integer
+          example: 114514
       required:
-        - token
-        - status
-        - created_time
-        - updated_time
+        - finished
+        - total
+        - study_time
+    StudyTodayItem:
+      type: object
+      description: 今日学习单词
+      properties:
+        voc_id:
+          description: 单词 ID
+          type: string
+          example: vocid
+        voc_spelling:
+          description: 单词拼写
+          type: string
+          example: apple
+        order:
+          description: 学习顺序
+          type: integer
+          example: 1
+        first_response:
+          description: 当天第一次反馈<br><br>引用自：[StudyResponse](/schemas/StudyResponse)
+          type: object
+          $ref: '#/components/schemas/StudyResponse'
+        is_new:
+          description: 是否是新学单词
+          type: boolean
+          example: false
+        is_finished:
+          description: 是否已完成当日学习
+          type: boolean
+          example: false
+      required:
+        - voc_id
+        - voc_spelling
+        - order
+        - is_new
+        - is_finished
+    StudyRecord:
+      type: object
+      description: 学习记录
+      properties:
+        voc_id:
+          description: 单词 ID
+          type: string
+          example: vocid
+        voc_spelling:
+          description: 单词拼写
+          type: string
+          example: apple
+        add_date:
+          description: 添加日期
+          type: string
+          format: ISODate
+          example: 2021-07-09T00:16:00.000Z
+        first_study_date:
+          description: 首次学习日期
+          type: string
+          format: ISODate
+          example: 2021-07-09T00:16:00.000Z
+        last_study_date:
+          description: 上次学习日期
+          type: string
+          format: ISODate
+          example: 2021-07-09T00:16:00.000Z
+        next_study_date:
+          description: 下次学习日期
+          type: string
+          format: ISODate
+          example: 2021-07-09T00:16:00.000Z
+        last_response:
+          description: 上次反馈<br><br>引用自：[StudyResponse](/schemas/StudyResponse)
+          type: object
+          $ref: '#/components/schemas/StudyResponse'
+        study_count:
+          description: 学习次数（每日最多计入 1 次）
+          type: integer
+          example: 10
+        tags:
+          description: 标签
+          type: string
+          enum:
+            - STICKING
+            - WELL_FAMILIAR
+      required:
+        - voc_id
+        - voc_spelling
+        - add_date
+        - study_count
+        - tags
     Vocabulary:
       type: object
       description: 暂无文档

@@ -25,7 +25,7 @@ export class NotepadService extends BaseService {
    * 查询云词本列表
    * @param limit 查询数量
    * @param offset 查询起始位置
-   * @param ids 指定的云词本ID列表（可选）
+   * @param ids 指定的云词本ID列表（可选）。实测常见 GET 数组序列化格式均无法正常过滤，暂不建议依赖。
    * @returns 云词本列表
    */
   async list(
@@ -66,6 +66,7 @@ export class NotepadService extends BaseService {
 
   /**
    * 创建云词本
+   * 官方文档标注为 200，实测创建成功时可能返回 201，且返回体可能不包含 content/list/creator。
    * @param params 创建云词本参数
    * @returns 创建的云词本
    */
@@ -97,6 +98,7 @@ export class NotepadService extends BaseService {
 
   /**
    * 更新云词本
+   * 官方文档标注为 200，实测更新成功时可能返回 201，且返回体可能不包含 content/list/creator。
    * @param id 云词本ID
    * @param params 更新云词本参数
    * @returns 更新后的云词本
